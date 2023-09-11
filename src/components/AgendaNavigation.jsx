@@ -10,7 +10,7 @@ const AgendaNavigation = ()=>{
     return(
         <>
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator initialRouteName="login">
                 <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}}/>
                 <Stack.Screen name="register" component={RegisterScreen} options={{headerShown: false}}/>
                 <Stack.Screen name="home" component={HomeScreen} options={{headerShown: false}}/>
