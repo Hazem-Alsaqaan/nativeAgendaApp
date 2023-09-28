@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "clientNativeAp",
-    "slug": "clientNativeAp",
+    "slug": "clientnativeap",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -29,8 +29,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "6696f1e4-4aad-4dd9-ae49-991645a00f37"
+        "projectId": "6449c92e-a860-46e3-b093-aa2eb8c8a919"
       }
-    }
+    },
+    "owner": "hazem-alsaqaan"
   }
 }

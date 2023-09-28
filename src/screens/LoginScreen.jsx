@@ -3,7 +3,6 @@ import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from
 import * as Google from "expo-auth-session/providers/google"
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useEffect } from "react"
 
 
 
@@ -12,21 +11,23 @@ import { useEffect } from "react"
 
 const LoginScreen = ()=>{
     const navigation = useNavigation()
+    // const currentUser = {
+    //     name: "hazem alsaqaan",
+    //     email: "hazem.alsaqaan@gmail.com"
+    // }
+
+
     const [request, response, promptAsync] = Google.useAuthRequest({
         clientId: "425453760365-q1cquoo162r0b19l5msus45i5pe0l19f.apps.googleusercontent.com",
         webClientId: "425453760365-q1cquoo162r0b19l5msus45i5pe0l19f.apps.googleusercontent.com",
         androidClientId: "425453760365-7n6d57e7aiq7p7tj2b8j6jdffapcdd56.apps.googleusercontent.com"
     })
 
-useEffect(()=>{
-    handleLogin()
-},[response])
-
     async function handleLogin () {
+        await promptAsync()
         if(response?.type === "success"){
             await getUserInfo(response?.authentication.accessToken)
         }
-        navigation.navigate("home")
     }
 
     async function getUserInfo(accessToken){
@@ -42,7 +43,29 @@ useEffect(()=>{
             email: userInfo.data.email,
             picture: userInfo.data.picture
         })
-        AsyncStorage.setItem("@user", JSON.stringify(userLoginInfo.data))    }
+        await AsyncStorage.setItem("@user", JSON.stringify(userLoginInfo.data))  
+        if(Object.keys(userLoginInfo.data).length <= 0){
+            navigation.navigate("login")
+        }else{
+            navigation.navigate("home")
+        }  
+    }
+
+
+    // const submitLogin = async()=>{
+    //     await AsyncStorage.setItem("@user", JSON.stringify(currentUser))
+    //     if(Object.keys(currentUser).length <= 0){
+    //         navigation.navigate("login")
+    //     }else{
+    //         navigation.navigate("home")
+    //     }
+        // promptAsync();
+        // const userStorage = await AsyncStorage.getItem("@user")
+        // if(userStorage.length > 0){
+        //     console.log(userStorage)
+        //     navigation.navigate("home")
+        // }
+    // }
     return (
         <>
         <ImageBackground
@@ -60,7 +83,7 @@ useEffect(()=>{
             <Text style={styles.paragraph}>سجل الدخول باستخدام بريدك الالكترونى</Text>
             <TouchableOpacity
             style={styles.googleButton}
-            onPress={()=>promptAsync()}
+            onPress={()=>handleLogin()}
             >
                 <Image
                 source={{uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1694190476/google_2504914_ft5isu.png"}}
@@ -72,7 +95,7 @@ useEffect(()=>{
                 </View>
             </TouchableOpacity>
             <View style={styles.footerParagraph}>
-                <Text style={styles.textTwo}> حساب جديد</Text>
+                <Text onPress={()=>navigation.navigate("register")} style={styles.textTwo}> حساب جديد</Text>
                 <Text style={styles.textOne}>ليس لديك حساب؟</Text>
             </View>
         </ImageBackground>

@@ -1,25 +1,43 @@
-import { Text, View, StyleSheet } from "react-native"
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native"
+import { useNavigation, useRoute } from "@react-navigation/native"
+import React, { useState } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useEffect, useState } from "react"
-
-
 
 
 
 const HomeScreen = ()=>{
-    const [currentUser, setCurrentUser] = useState()
-    useEffect(()=>{
-        const cleaner = async()=>{
+    const navigation = useNavigation()
+    const [currentUser, setCurrentUser] = useState({})
+
+    React.useEffect(()=>{
+        const cleanerGetUser = async ()=>{
             const userStorage = await AsyncStorage.getItem("@user")
-            setCurrentUser(JSON.parse(userStorage))
+            if(Object.keys(JSON.parse(userStorage)).length > 0){
+                setCurrentUser(JSON.parse(userStorage))
+            }else{
+                navigation.navigate("login")
+            }
         }
-        return()=> cleaner()
-    },[currentUser])
+        cleanerGetUser()
+    },[])
+    const getUserStorage = async()=>{
+        console.log(currentUser)
+    }
+
+    const signOut = async()=>{
+        await AsyncStorage.clear()
+        navigation.navigate("login")
+    }
     return (
         <>
             <View style={styles.container}>
-                <Text>Home</Text>
-                {currentUser ? <Text>{currentUser?.email}</Text> : <Text>loading...</Text>}
+                <Text>{Object.keys(currentUser).length > 0 ? currentUser?.name : "user not found"}</Text>
+                <TouchableOpacity style={styles.signOutButton} onPress={()=>getUserStorage()}>
+                    <Text>console log</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.signOutButton} onPress={()=>signOut()}>
+                    <Text>sign out</Text>
+                </TouchableOpacity>
             </View>
         </>
     )
@@ -43,5 +61,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#01eca5"
+    },
+    signOutButton:{
+        padding: 10,
+        backgroundColor: "#fff",
     }
 })
