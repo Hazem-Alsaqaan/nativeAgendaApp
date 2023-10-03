@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native"
 import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native"
-import * as Google from "expo-auth-session/providers/google"
-import axios from "axios"
+// import * as Google from "expo-auth-session/providers/google"
+// import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
@@ -11,61 +11,61 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const LoginScreen = ()=>{
     const navigation = useNavigation()
-    // const currentUser = {
-    //     name: "hazem alsaqaan",
-    //     email: "hazem.alsaqaan@gmail.com"
+    const currentUser = {
+        name: "hazem alsaqaan",
+        email: "hazem.alsaqaan@gmail.com"
+    }
+
+
+    // const [request, response, promptAsync] = Google.useAuthRequest({
+    //     clientId: "425453760365-q1cquoo162r0b19l5msus45i5pe0l19f.apps.googleusercontent.com",
+    //     webClientId: "425453760365-q1cquoo162r0b19l5msus45i5pe0l19f.apps.googleusercontent.com",
+    //     androidClientId: "425453760365-7n6d57e7aiq7p7tj2b8j6jdffapcdd56.apps.googleusercontent.com"
+    // })
+
+    // async function handleLogin () {
+    //     await promptAsync()
+    //     if(response?.type === "success"){
+    //         await getUserInfo(response?.authentication.accessToken)
+    //     }
     // }
 
-
-    const [request, response, promptAsync] = Google.useAuthRequest({
-        clientId: "425453760365-q1cquoo162r0b19l5msus45i5pe0l19f.apps.googleusercontent.com",
-        webClientId: "425453760365-q1cquoo162r0b19l5msus45i5pe0l19f.apps.googleusercontent.com",
-        androidClientId: "425453760365-7n6d57e7aiq7p7tj2b8j6jdffapcdd56.apps.googleusercontent.com"
-    })
-
-    async function handleLogin () {
-        await promptAsync()
-        if(response?.type === "success"){
-            await getUserInfo(response?.authentication.accessToken)
-        }
-    }
-
-    async function getUserInfo(accessToken){
-        if(!accessToken) return;
-        const userInfo =  await axios.get("https://www.googleapis.com/userinfo/v2/me", {
-            headers:{
-                Authorization: `Bearer ${accessToken}`
-            }
-        })
-        const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
-        {
-            name: userInfo.data.name,
-            email: userInfo.data.email,
-            picture: userInfo.data.picture
-        })
-        await AsyncStorage.setItem("@user", JSON.stringify(userLoginInfo.data))  
-        if(Object.keys(userLoginInfo.data).length <= 0){
-            navigation.navigate("login")
-        }else{
-            navigation.navigate("home")
-        }  
-    }
-
-
-    // const submitLogin = async()=>{
-    //     await AsyncStorage.setItem("@user", JSON.stringify(currentUser))
-    //     if(Object.keys(currentUser).length <= 0){
+    // async function getUserInfo(accessToken){
+    //     if(!accessToken) return;
+    //     const userInfo =  await axios.get("https://www.googleapis.com/userinfo/v2/me", {
+    //         headers:{
+    //             Authorization: `Bearer ${accessToken}`
+    //         }
+    //     })
+    //     const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
+    //     {
+    //         name: userInfo.data.name,
+    //         email: userInfo.data.email,
+    //         picture: userInfo.data.picture
+    //     })
+    //     await AsyncStorage.setItem("@user", JSON.stringify(userLoginInfo.data))  
+    //     if(Object.keys(userLoginInfo.data).length <= 0){
     //         navigation.navigate("login")
     //     }else{
     //         navigation.navigate("home")
-    //     }
+    //     }  
+    // }
+
+
+    const submitLogin = async()=>{
+        await AsyncStorage.setItem("@user", JSON.stringify(currentUser))
+        if(Object.keys(currentUser).length <= 0){
+            navigation.navigate("login")
+        }else{
+            navigation.navigate("home")
+        }
         // promptAsync();
         // const userStorage = await AsyncStorage.getItem("@user")
         // if(userStorage.length > 0){
         //     console.log(userStorage)
         //     navigation.navigate("home")
         // }
-    // }
+    }
     return (
         <>
         <ImageBackground
@@ -83,7 +83,7 @@ const LoginScreen = ()=>{
             <Text style={styles.paragraph}>سجل الدخول باستخدام بريدك الالكترونى</Text>
             <TouchableOpacity
             style={styles.googleButton}
-            onPress={()=>handleLogin()}
+            onPress={()=>submitLogin()}
             >
                 <Image
                 source={{uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1694190476/google_2504914_ft5isu.png"}}
