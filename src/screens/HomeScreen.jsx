@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import tw from "twrnc"
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Feather } from '@expo/vector-icons'; 
 
 
 const HomeScreen = ()=>{
@@ -77,14 +78,30 @@ const HomeScreen = ()=>{
                         : ""
                     }
                 </View>
+                <View style={tw`flex flex-row items-center justify-between `}>
+                    <Image
+                    source={{uri:"https://res.cloudinary.com/dkhu7rt8n/image/upload/v1696339068/judicial_agenda/diary_10748433_mgiezi.png"}}
+                    style={tw`w-20 h-20`}
+                        />
+                    <Image
+                    source={{uri:"https://res.cloudinary.com/dkhu7rt8n/image/upload/v1694094193/judicial_agenda/user-interface_2920328_rgkmky.png"}}
+                    style={tw`w-35 h-35 mx-3`}
+                        />
+                    <Image
+                    source={{uri:"https://res.cloudinary.com/dkhu7rt8n/image/upload/v1696339157/judicial_agenda/24-hours-support_5075962_cteslj.png"}}
+                    style={tw`w-20 h-20`}
+                        />
+                </View>
 
 
 
 
 
-
-                <TouchableOpacity style={tw`bg-sky-500`} onPress={()=>signOut()}>
-                    <Text>sign out</Text>
+                <TouchableOpacity 
+                style={tw`bg-sky-500 rounded-lg px-5 py-2 flex items-center justify-center mt-5 shadow-2xl flex-row`} 
+                onPress={()=>signOut()}>
+                    <Text style={tw`text-white font-bold text-xl pr-2`}>تسجيل الخروج</Text>
+                    <Feather name="power" size={24} color="white" />
                 </TouchableOpacity>
             </View>
         </ImageBackground>
