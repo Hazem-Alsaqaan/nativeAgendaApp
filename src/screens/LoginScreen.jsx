@@ -31,7 +31,7 @@ const LoginScreen = () => {
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
-            dispatch(loginFulfilled(userInfo?.user))
+            dispatch(loginFulfilled(userInfo))
             // dispatch(loginFulfilled({
             //     user: { _id: "65075d93f0dfb75b896828c3", name: "hazem", email: "hazem.hamdy.khalil@gmail.com"},
             //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTA3NWQ5M2YwZGZiNzViODk2ODI4YzMiLCJuYW1lIjoiaGF6ZW0ga2hhbGlsIiwiZW1haWwiOiJoYXplbS5oYW1keS5raGFsaWxAZ21haWwuY29tIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0pBOG5rM3RQeVZ3U2lRSXdHeHlMZ1VJSkJlN2dvWTNOY05nYnNOQ0lhRGpBPXM5Ni1jIiwiaWF0IjoxNjk5Mjk4MjkxfQ.9D20-9aO1QULZenE9roM0m_9tVlSyChiKo1RtLmqOsw"
