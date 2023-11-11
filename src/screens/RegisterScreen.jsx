@@ -12,14 +12,14 @@ const RegisterScreen = ()=>{
         style={styles.container}
         >
             <View>
-                <Text style={styles.title}>الأجندة القضائية</Text>
+                <Text style={styles.title}>أهلا بــك</Text>
             </View>
             <Image
             source={{uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1694094219/judicial_agenda/letter_5075929_swbsj1.png"}}
             width={280}
             height={450}
             />
-            <Text style={styles.paragraph}>سجل الدخول باستخدام بريدك الالكترونى</Text>
+            <Text style={styles.paragraph}>قم بانشاء حساب باستخدام بريدك الالكترونى</Text>
             <TouchableOpacity
             style={styles.googleButton}
             onPress={()=>navigation.navigate("home")}

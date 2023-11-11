@@ -1,51 +1,44 @@
 import { Text, View, ImageBackground, TouchableOpacity, Image } from "react-native"
 import { useNavigation } from "@react-navigation/native"
-import React, { useEffect, useState } from "react"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import tw from "twrnc"
+import React, { useState } from "react"
+// import AsyncStorage from "@react-native-async-storage/async-storage"
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Feather } from '@expo/vector-icons'; 
+import { useDispatch, useSelector } from "react-redux"
+import { loginFulfilled, logout } from "../redux/reducers/authSlice"
+import { GoogleSignin } from "@react-native-google-signin/google-signin"
+import tw from "twrnc"
 
 
 const HomeScreen = ()=>{
     const navigation = useNavigation()
     const [currentDate, setCurrentDate] = useState(new Date())
     const [showDate, setShowDate] = useState(false)
-    const [currentUser, setCurrentUser] = useState({})
-
-    useEffect(()=>{
-        const cleanerGetUser = async ()=>{
-            const userStorage = await AsyncStorage.getItem("@user")
-            if(Object.keys(JSON.parse(userStorage)).length > 0){
-                setCurrentUser(JSON.parse(userStorage))
-            }else{
-                navigation.navigate("login")
-            }
-        }
-        cleanerGetUser()
-    },[])
+    const {currentUser} = useSelector((state)=> state.authSlice)
+    const dispatch = useDispatch()
 
     
     const handleOnDateChange =(event, selectedDate)=>{
         const date = selectedDate;
         setCurrentDate(date)
         setShowDate(!showDate)
-        const dayId = `${selectedDate.getDate()}-${selectedDate.getMonth() + 1}-${selectedDate.getFullYear()}`
+        // const dayId = `${selectedDate.getDate()}-${selectedDate.getMonth() + 1}-${selectedDate.getFullYear()}`
+        const dayId = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate().toString().length <= 1 ? `0${selectedDate.getDate()}` : selectedDate.getDate()}`
         navigation.setParams({dateId: dayId})
         navigation.navigate("DateSelected",{
             dateId: dayId
         })
     }
 
-    const signOut = async()=>{
-        await AsyncStorage.clear()
-        navigation.navigate("login")
+    const signOut =()=>{
+        GoogleSignin.signOut()
+        dispatch(logout())
     }
     return (
         <>
         <ImageBackground
         source={{uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1691845471/judicial_agenda/14547742_rm218batch4-ning-34_fxd8rj.jpg"}}
-        style={tw`w-full min-h-screen flex-1 items-center justify-center`}>
+        style={tw`w-full min-h-full flex-1 items-center justify-center`}>
             <View>
                 <View style={tw`flex flex-row justify-between items-center`}>
                     <View style={tw`flex items-center mx-4`}>
@@ -55,7 +48,11 @@ const HomeScreen = ()=>{
                             style={tw`w-full h-full rounded-full`}
                             />
                         </View>
-                        <Text style={tw`text-black font-bold text-lg mt-1`}>{Object.keys(currentUser).length > 0 ? currentUser?.name : "user not found"}</Text>
+                        <View style={tw`mt-2 max-w-3xl p-1 `}>
+                            <Text style={tw`text-black font-bold text-lg`}>
+                                {Object.keys(currentUser).length > 0 ? currentUser?.name : "user not found"}
+                            </Text>
+                        </View>
                     </View>
                 </View>
 

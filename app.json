@@ -32,6 +32,7 @@
         "projectId": "6449c92e-a860-46e3-b093-aa2eb8c8a919"
       }
     },
-    "owner": "hazem-alsaqaan"
+    "owner": "hazem-alsaqaan",
+    "plugins": ["@react-native-google-signin/google-signin"]
   }
 }

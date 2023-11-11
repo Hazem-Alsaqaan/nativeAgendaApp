@@ -4,19 +4,43 @@ import HomeScreen from "../screens/HomeScreen"
 import LoginScreen from "../screens/LoginScreen"
 import RegisterScreen from "../screens/RegisterScreen"
 import DateSelectedScreen from "../screens/DateSelectedScreen"
+import { useSelector } from "react-redux"
+import SingleCaseScreen from "../screens/SingleCaseScreen"
 
-const Stack = createNativeStackNavigator()
+const StackOutside = createNativeStackNavigator()
+const StackInside = createNativeStackNavigator()
 
+const InSideNavigator = ()=>{
+    return(
+        <>
+            <StackInside.Navigator initialRouteName="home">
+                <StackInside.Screen name="home" component={HomeScreen} options={{headerShown: false}}/>
+                <StackInside.Screen name="DateSelected" component={DateSelectedScreen} options={{headerShown: false}}/>
+                <StackInside.Screen name="singleCaseScreen" component={SingleCaseScreen} options={{headerShown: false}}/>
+            </StackInside.Navigator>
+        </>
+    )
+}
+const OutsideNavigator =()=>{
+    return(
+        <>
+        <StackOutside.Navigator initialRouteName="login">
+            <StackOutside.Screen name="login" component={LoginScreen}  options={{headerShown: false}}/>
+            <StackOutside.Screen name="register" component={RegisterScreen}  options={{headerShown: false}}/>
+        </StackOutside.Navigator>
+        </>
+    )
+}
 const AgendaNavigation = ()=>{
+    const {currentUser} = useSelector((state)=> state.authSlice)
     return(
         <>
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="login">
-                <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}}/>
-                <Stack.Screen name="register" component={RegisterScreen} options={{headerShown: false}}/>
-                <Stack.Screen name="home" component={HomeScreen} options={{headerShown: false}}/>
-                <Stack.Screen name="DateSelected" component={DateSelectedScreen} options={{headerShown: false}}/>
-            </Stack.Navigator>
+            { Object.keys(currentUser).length > 0 ?
+                <InSideNavigator/>
+                :
+                <OutsideNavigator/>
+            }
         </NavigationContainer>
         </>
     )

@@ -1,71 +1,37 @@
-import {  View , StyleSheet} from "react-native"
+import {  View , StyleSheet, Text, ActivityIndicator} from "react-native"
 import SingleRow from "./SingleRow"
+import { useDispatch, useSelector } from "react-redux"
+import { memo, useEffect } from "react"
+import { showCasesByDate } from "../redux/actions/casesAction"
+import { useRoute } from "@react-navigation/native"
 
 
 
-const ShowDateCases = ()=>{
-    const dateCases = [
-        {
-            _id: 1,
-            number: "155555",
-            plaintiff: "عمرو اديب",
-            defendant: "مرتضى منصور",
-            caseType: "تعويض",
-            fromSession: "30-08-2023",
-            toSession: "30-08-2023",
-            decision: "اجل للاطلاع"
-        },
-        {
-            _id: 2,
-            number: "1256",
-            theYear: "2023",
-            plaintiff: "عادل امام",
-            defendant: "سعيد صالح",
-            caseType: "صحة توقيع",
-            fromSession: "30-08-2023",
-            toSession: "30-08-2023",
-            decision: "اجل للاطلاع"
-        },
-        {
-            _id: 3,
-            number: "1256",
-            theYear: "2023",
-            plaintiff: "عادل امام",
-            defendant: "سعيد صالح",
-            caseType: "صحة توقيع",
-            fromSession: "30-08-2023",
-            toSession: "30-08-2023",
-            decision: "اجل للاطلاع"
-        },
-        {
-            _id: 4,
-            number: "1256",
-            theYear: "2023",
-            plaintiff: "عادل امام",
-            defendant: "سعيد صالح",
-            caseType: "صحة توقيع",
-            fromSession: "30-08-2023",
-            toSession: "30-08-2023",
-            decision: "اجل للاطلاع"
-        },
-    ]
+const ShowDateCases = ({isRefresh})=>{
+    const dispatch = useDispatch()
+    const {token} = useSelector((state)=>state.authSlice)
+    const {dateId} = useRoute().params
+    const {casesByDate} = useSelector((state)=>state.casesSlice)
+    const {casesByDateIsLoading} = useSelector((state)=>state.casesSlice)
+    
+    useEffect(()=>{
+        dispatch(showCasesByDate({token: token, date: dateId}));
+    },[isRefresh])
+
     return(
         <>
-        <View style={styles.container}>
-            {
-                dateCases.map((item)=><SingleRow key={item._id} item = {item}/>)
-                // <FlatList
-                //     data={dateCases}
-                //     renderItem={({item})=> <SingleRow item = {item}/>}
-                //     keyExtractor={(item)=> item._id}
-                // />
-            }  
-        </View>
+            <View style={styles.container}>
+                {casesByDateIsLoading ? <ActivityIndicator size="large"/>
+                    : casesByDate.length > 0 ? casesByDate?.map((item)=><SingleRow key={item?._id} item = {item}/>)
+                    : <Text>لا توجد قضايا مسجلة في هذا التاريخ</Text>
+                }  
+            </View>
+            
         </>
     )
 }
 
-export default ShowDateCases
+export default memo(ShowDateCases)
 
 const styles = StyleSheet.create({
     container: {
