@@ -3,43 +3,45 @@ import { createSlice } from "@reduxjs/toolkit";
 const caseStateSlice = createSlice({
     name: "objectCase",
     initialState: {
-        number: "",
-        theYear: "",
-        plaintiff: "",
-        defendant: "",
-        typeCase: "",
-        fromSession: "",
-        toSession: "",
-        decision: "",
-        itemId: ""
+        caseStates:{
+            number: "",
+            theYear: "",
+            plaintiff: "",
+            defendant: "",
+            typeCase: "",
+            fromSession: "",
+            toSession: "",
+            decision: "",
+            itemId: ""
+        }
     },
     reducers: {
         setNumber: (state, action) => {
-            state.number = action.payload;
+            state.caseStates = {...state.caseStates, number: action.payload}
         },
         setTheYear: (state, action) => {
-            state.theYear = action.payload;
+            state.caseStates = {...state.caseStates, theYear: action.payload}
         },
         setPlaintiff: (state, action) => {
-            state.plaintiff = action.payload;
+            state.caseStates = {...state.caseStates, plaintiff: action.payload}
         },
         setDefendant: (state, action) => {
-            state.defendant = action.payload;
+            state.caseStates = {...state.caseStates, defendant: action.payload}
         },
         setTypeCase: (state, action) => {
-            state.typeCase = action.payload;
+            state.caseStates = {...state.caseStates, typeCase: action.payload}
         },
         setFromSession: (state, action) => {
-            state.fromSession = action.payload;
+            state.caseStates = {...state.caseStates, fromSession: action.payload}
         },
         setToSession: (state, action) => {
-            state.toSession = action.payload;
+            state.caseStates = {...state.caseStates, toSession: action.payload}
         },
         setDecision: (state, action) => {
-            state.decision = action.payload;
+            state.caseStates = {...state.caseStates, decision: action.payload}
         },
         setItemId: (state, action) => {
-            state.itemId = action.payload;
+            state.caseStates = {...state.caseStates, itemId: action.payload}
         }
     
     },

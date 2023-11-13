@@ -2,11 +2,12 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import tw from "twrnc"
 import { setItemId, setDecision, setDefendant, setFromSession, setNumber, setPlaintiff, setTheYear, setToSession, setTypeCase } from "../redux/reducers/caseStateSlice"
-import { deleteCases } from "../redux/actions/casesAction"
-import { useNavigation } from "@react-navigation/native"
+import { deleteCases, showCasesByDate } from "../redux/actions/casesAction"
+import { useNavigation, useRoute } from "@react-navigation/native"
 
 
 const SingleRow = ({item})=>{
+    const {dateId} = useRoute().params
     const dispatch = useDispatch()
     const {token} = useSelector((state)=> state.authSlice)
     const navigation = useNavigation()
@@ -21,19 +22,22 @@ const SingleRow = ({item})=>{
     }
     // get item id selected 
     const getItemIdSelected =(item)=>{
-        dispatch(setItemId(item._id.toString()))
-        dispatch(setDecision(item.decision))
-        dispatch(setDefendant(item.defendant))
-        dispatch(setFromSession(item.fromSession))
-        dispatch(setNumber(item.number))
-        dispatch(setPlaintiff(item.plaintiff))
-        dispatch(setTheYear(item.theYear))
-        dispatch(setToSession(item.toSession))
-        dispatch(setTypeCase(item.typeCase))
+            dispatch(setItemId(item._id.toString()))
+            dispatch(setDecision(item.decision))
+            dispatch(setDefendant(item.defendant))
+            dispatch(setFromSession(item.fromSession))
+            dispatch(setNumber(item.number))
+            dispatch(setPlaintiff(item.plaintiff))
+            dispatch(setTheYear(item.theYear))
+            dispatch(setToSession(item.toSession))
+            dispatch(setTypeCase(item.typeCase))
     }
     // submite delete cases
     const submitDeleteCase =(id)=>{
-        dispatch(deleteCases({id: id, token: token}))
+        if(id){
+            dispatch(deleteCases({id: id, token: token}))
+        }
+        dispatch(showCasesByDate({token: token, date: dateId}));
     }
     return(
         <>

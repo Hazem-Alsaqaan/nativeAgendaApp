@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { memo, useEffect } from "react"
 import { showCasesByDate } from "../redux/actions/casesAction"
 import { useRoute } from "@react-navigation/native"
+import { setDecision, setDefendant, setFromSession, setItemId, setNumber, setPlaintiff, setTheYear, setToSession, setTypeCase } from "../redux/reducers/caseStateSlice";
 
 
 
@@ -16,12 +17,21 @@ const ShowDateCases = ({isRefresh})=>{
     
     useEffect(()=>{
         dispatch(showCasesByDate({token: token, date: dateId}));
+        dispatch(setDecision(""))
+        dispatch(setDefendant(""))
+        dispatch(setFromSession(""))
+        dispatch(setNumber(""))
+        dispatch(setPlaintiff(""))
+        dispatch(setTheYear(""))
+        dispatch(setToSession(""))
+        dispatch(setTypeCase(""))
     },[isRefresh])
 
     return(
         <>
             <View style={styles.container}>
-                {casesByDateIsLoading ? <ActivityIndicator size="large"/>
+                {casesByDateIsLoading ? 
+                    <ActivityIndicator size="large"/>
                     : casesByDate.length > 0 ? casesByDate?.map((item)=><SingleRow key={item?._id} item = {item}/>)
                     : <Text>لا توجد قضايا مسجلة في هذا التاريخ</Text>
                 }  

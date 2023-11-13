@@ -9,35 +9,52 @@ import {
 import { useNavigation } from "@react-navigation/native"
 import { loginFulfilled } from "../redux/reducers/authSlice";
 import { useDispatch } from "react-redux";
-import {
-    GoogleSignin,
-    GoogleSigninButton,
-    statusCodes,
-} from '@react-native-google-signin/google-signin';
-import { useEffect } from "react";
+// import {
+//     GoogleSignin,
+//     GoogleSigninButton,
+//     statusCodes,
+// } from '@react-native-google-signin/google-signin';
+// import { useEffect } from "react";
+// import axios from "axios";
+// import ToastMessage from "../components/ToastMessage";
 
 
 const LoginScreen = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch()
 
-    useEffect(()=>{
-        GoogleSignin.configure({
-            webClientId: '85768740510-sa9vgom66hqrgjc7681c5tpr85vtffe4.apps.googleusercontent.com'
-        });
-    },[])
+    // useEffect(()=>{
+    //     GoogleSignin.configure({
+    //         webClientId: '85768740510-sa9vgom66hqrgjc7681c5tpr85vtffe4.apps.googleusercontent.com'
+    //     });
+    // },[])
     
     const submitGoogleSignIn = async () => {
         try {
-            await GoogleSignin.hasPlayServices();
-            const userInfo = await GoogleSignin.signIn();
-            dispatch(loginFulfilled(userInfo))
-            // dispatch(loginFulfilled({
-            //     user: { _id: "65075d93f0dfb75b896828c3", name: "hazem", email: "hazem.hamdy.khalil@gmail.com"},
-            //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTA3NWQ5M2YwZGZiNzViODk2ODI4YzMiLCJuYW1lIjoiaGF6ZW0ga2hhbGlsIiwiZW1haWwiOiJoYXplbS5oYW1keS5raGFsaWxAZ21haWwuY29tIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0pBOG5rM3RQeVZ3U2lRSXdHeHlMZ1VJSkJlN2dvWTNOY05nYnNOQ0lhRGpBPXM5Ni1jIiwiaWF0IjoxNjk5Mjk4MjkxfQ.9D20-9aO1QULZenE9roM0m_9tVlSyChiKo1RtLmqOsw"
-            // }))
+            // await GoogleSignin.hasPlayServices();
+            // const userInfo = await GoogleSignin.signIn();
+            // const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
+            //     {
+            //         name: userInfo.user.name,
+            //         email: userInfo.user.email,
+            //         picture: userInfo.user.photo
+            //     })
+            // dispatch(loginFulfilled(userLoginInfo.data))
+            dispatch(loginFulfilled({
+                user: { _id: "65075d93f0dfb75b896828c3", name: "hazem", email: "hazem.hamdy.khalil@gmail.com"},
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTA3NWQ5M2YwZGZiNzViODk2ODI4YzMiLCJuYW1lIjoiaGF6ZW0ga2hhbGlsIiwiZW1haWwiOiJoYXplbS5oYW1keS5raGFsaWxAZ21haWwuY29tIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0pBOG5rM3RQeVZ3U2lRSXdHeHlMZ1VJSkJlN2dvWTNOY05nYnNOQ0lhRGpBPXM5Ni1jIiwiaWF0IjoxNjk5Mjk4MjkxfQ.9D20-9aO1QULZenE9roM0m_9tVlSyChiKo1RtLmqOsw"
+            }))
         } catch (error) {
             console.log(error)
+            // if(err.message === "Network Error"){
+            //     ToastMessage("تأكد من اتصالك بالانترنت")
+            // }else if(err.response.data.error_description){
+            //     ToastMessage(err.response.data.error_description)
+            // }else if (err.response.data.message) {
+            //     ToastMessage(err.response.data.message)
+            // }else{
+            //     ToastMessage(err.response.data)
+            // }
         }
     };
         
@@ -63,7 +80,7 @@ const LoginScreen = () => {
                     سجل الدخول باستخدام بريدك الالكترونى
                 </Text>
                 {/* <<<<<<<<<<<<<<<<<<  TEMP CODE  >>>>>>>>>>>>>>>>> */}
-                    {/* <TouchableOpacity
+                    <TouchableOpacity
                         style={styles.googleButton}
                         onPress={()=>submitGoogleSignIn()}
                         >
@@ -75,12 +92,12 @@ const LoginScreen = () => {
                         <View style={styles.googleButtonTextContainer}>
                             <Text style={styles.googleButtonText}>Google</Text>
                         </View>
-                    </TouchableOpacity> */}
-                <GoogleSigninButton
+                    </TouchableOpacity>
+                {/* <GoogleSigninButton
                         size={GoogleSigninButton.Size.Wide}
                         color={GoogleSigninButton.Color.Dark}
                         onPress={()=>submitGoogleSignIn()}
-                        />
+                        /> */}
                 <View style={styles.footerParagraph}>
                     <Text
                         onPress={() => navigation.navigate("register")}
