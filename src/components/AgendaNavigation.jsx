@@ -2,7 +2,7 @@ import {NavigationContainer} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import HomeScreen from "../screens/HomeScreen"
 import LoginScreen from "../screens/LoginScreen"
-import RegisterScreen from "../screens/RegisterScreen"
+// import RegisterScreen from "../screens/RegisterScreen"
 import DateSelectedScreen from "../screens/DateSelectedScreen"
 import { useSelector } from "react-redux"
 import SingleCaseScreen from "../screens/SingleCaseScreen"
@@ -26,7 +26,7 @@ const OutsideNavigator =()=>{
         <>
         <StackOutside.Navigator initialRouteName="login">
             <StackOutside.Screen name="login" component={LoginScreen}  options={{headerShown: false}}/>
-            <StackOutside.Screen name="register" component={RegisterScreen}  options={{headerShown: false}}/>
+            {/* <StackOutside.Screen name="register" component={RegisterScreen}  options={{headerShown: false}}/> */}
         </StackOutside.Navigator>
         </>
     )

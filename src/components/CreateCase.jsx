@@ -90,7 +90,7 @@ const CreateCase = ()=>{
                             {/* <Text style={tw`text-center text-base font-bold text-sky-600 mx-0.5`}>عوده</Text> */}
                             <Ionicons name="return-down-back-outline" size={24} color="black" />
                         </TouchableOpacity>
-                        <Text style={tw`text-lg font-bold`}>تاريخ الصفحة: {dateId}</Text>
+                        <Text style={tw`text-lg font-bold text-sky-500`}>تاريخ الصفحة: {dateId}</Text>
                     </View>
                     <View>
                         <Text style={tw`text-center font-bold text-base`}>الرقم</Text>
