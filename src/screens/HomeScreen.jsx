@@ -5,8 +5,8 @@ import React, { useState } from "react"
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Feather } from '@expo/vector-icons';
 import { useDispatch, useSelector } from "react-redux"
-import { loginFulfilled, logout, logoutPending } from "../redux/reducers/authSlice"
-// import { GoogleSignin } from "@react-native-google-signin/google-signin"
+import { logout, logoutPending } from "../redux/reducers/authSlice"
+import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import tw from "twrnc"
 
 
@@ -33,7 +33,7 @@ const HomeScreen = () => {
 
     const signOut = () => {
         dispatch(logoutPending())
-        // GoogleSignin.signOut()
+        GoogleSignin.signOut()
         dispatch(logout())
     }
     return (
