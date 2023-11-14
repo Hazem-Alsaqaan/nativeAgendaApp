@@ -7,8 +7,10 @@ const authSlice = createSlice({
         currentUser: {},
         token: "",
         loginLoading: false,
+        logOutLoading: false,
+        loginError: false,
         registerLoading: false,
-        logOutLoading: false
+        registerError: false,
     },
     reducers: {
         loginPending: (state, action)=>{
@@ -18,7 +20,10 @@ const authSlice = createSlice({
             state.loginLoading = false
             state.currentUser = action.payload.user
             state.token = action.payload.token
-
+        },
+        loginRejected: (state, action)=>{
+            state.loginError = true
+            state.loginLoading = false
         },
         logout: (state) =>{
             state.currentUser = {}
@@ -33,6 +38,10 @@ const authSlice = createSlice({
             state.token = action.payload.token
 
         },
+        registerRejected:(state, action)=>{
+            state.registerError = true
+            state.registerLoading = false
+        },
         logoutPending: (state) =>{
             state.logOutLoading = true
         },
@@ -45,5 +54,5 @@ const authSlice = createSlice({
 })
 
 
-export const {  loginFulfilled, logout, loginPending, registerFulfilled, registerPending, logoutPending} = authSlice.actions
+export const {  loginFulfilled, logout, loginPending, loginRejected, registerFulfilled, registerPending, registerRejected, logoutPending} = authSlice.actions
 export default  authSlice.reducer

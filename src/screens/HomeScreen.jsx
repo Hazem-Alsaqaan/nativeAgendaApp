@@ -6,8 +6,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Feather } from '@expo/vector-icons';
 import { useDispatch, useSelector } from "react-redux"
 import { logout, logoutPending } from "../redux/reducers/authSlice"
-import { GoogleSignin } from "@react-native-google-signin/google-signin"
+// import * as Google from "@react-native-google-signin/google-signin"
 import tw from "twrnc"
+import ToastMessage from "../components/ToastMessage";
 
 
 const HomeScreen = () => {
@@ -23,7 +24,6 @@ const HomeScreen = () => {
         const date = selectedDate;
         setCurrentDate(date)
         setShowDate(!showDate)
-        // const dayId = `${selectedDate.getDate()}-${selectedDate.getMonth() + 1}-${selectedDate.getFullYear()}`
         const dayId = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate().toString().length <= 1 ? `0${selectedDate.getDate()}` : selectedDate.getDate()}`
         navigation.setParams({ dateId: dayId })
         navigation.navigate("DateSelected", {
@@ -31,10 +31,23 @@ const HomeScreen = () => {
         })
     }
 
-    const signOut = () => {
-        dispatch(logoutPending())
-        GoogleSignin.signOut()
-        dispatch(logout())
+    const signOut = async() => {
+        try{
+            dispatch(logoutPending())
+            // Google.GoogleSignin.signOut()
+            dispatch(logout())
+        }catch(err){
+            // if(err.code === Google.statusCodes.SIGN_IN_CANCELLED){
+            //     ToastMessage("IN CANCELED")
+            // }else if(err.code === Google.statusCodes.IN_PROGRESS){
+            //     ToastMessage("IN PROGRESS")
+            // }else if (err.code === Google.statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            //     ToastMessage("IN SERVICES")
+            // }else{
+            //     ToastMessage(err)
+            // }
+            console.log(err)
+        }
     }
     return (
         <>
@@ -46,8 +59,7 @@ const HomeScreen = () => {
                         <View style={tw`flex justify-center items-center my-1`}>
                             <View style={tw`w-20 h-20 rounded-full border-solid border-2 border-gray-200 shadow-2xl`}>
                                 <Image
-                                    // source={{uri: currentUser?.picture}}
-                                    source={{ uri: "https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?w=826&t=st=1692854231~exp=1692854831~hmac=890d90455b84ed25340a76fb179b52cb7e819cdaf544f9cd1e47b70eb46861df" }}
+                                    source={{uri: currentUser?.picture}}
                                     style={tw`w-full h-full rounded-full`}
                                 />
                             </View>
@@ -104,7 +116,3 @@ const HomeScreen = () => {
     )
 }
 export default HomeScreen
-
-
-
-
