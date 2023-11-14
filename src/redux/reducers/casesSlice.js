@@ -6,10 +6,10 @@ const casesSlice = createSlice({
     name: "casesSlice",
     initialState: {
         casesByDate: [],
-        errorMessage: {},
+        errorMessage: "",
         casesByDateIsLoading: false, 
         singleCase: {},
-        singleCaseError: {},
+        singleCaseError: "",
         singleCaseLoading: false,   
     },
     extraReducers: (builder)=>{
@@ -23,7 +23,7 @@ const casesSlice = createSlice({
         })
         builder.addCase(showCasesByDate.rejected, (state, action)=>{
             state.casesByDateIsLoading = false
-            state.errorMessage = action.error
+            state.errorMessage = action.error.message
         })
         // add new cases 
         builder.addCase(addNewCases.pending, (state, action)=>{
@@ -35,7 +35,7 @@ const casesSlice = createSlice({
         })
         builder.addCase(addNewCases.rejected, (state, action)=>{
             state.casesByDateIsLoading = false;
-            state.errorMessage = action.error
+            state.errorMessage = action.error.message
         })
         // update cases
         builder.addCase(updateCases.pending, (state, action)=>{
@@ -47,7 +47,7 @@ const casesSlice = createSlice({
         })
         builder.addCase(updateCases.rejected, (state, action)=>{
             state.casesByDateIsLoading = false;
-            state.errorMessage = action.error
+            state.errorMessage = action.error.message
         })
         // delete cases
         builder.addCase(deleteCases.pending, (state, action)=>{
@@ -61,7 +61,7 @@ const casesSlice = createSlice({
         })
         builder.addCase(deleteCases.rejected, (state, action)=>{
             state.casesByDateIsLoading = false;
-            state.errorMessage = action.error
+            state.errorMessage = action.error.message
         })
         // show single case
         builder.addCase(ShowSingleCase.pending, (state, action)=>{
@@ -73,7 +73,7 @@ const casesSlice = createSlice({
         })
         builder.addCase(ShowSingleCase.rejected, (state, action)=>{
             state.singleCaseLoading = false;
-            state.singleCaseError = action.error
+            state.singleCaseError = action.error.message
         })
         
     }

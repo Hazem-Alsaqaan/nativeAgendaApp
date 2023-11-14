@@ -141,7 +141,7 @@ const CreateCase = ()=>{
                             <Text style={tw`text-black text-2xl font-bold text-center`}>{caseStates?.fromSession ? caseStates?.fromSession : "من جلسة"}</Text>
                         </TouchableOpacity>
                         {fromVisible && <DateTimePicker
-                        value={caseStates.fromSession ? caseStates?.fromSession : new Date()}
+                        value={new Date()}
                         onChange={handleFromSessionDate}
                         mode="date"
                         />}
@@ -152,7 +152,7 @@ const CreateCase = ()=>{
                             <Text style={tw`text-black text-2xl font-bold text-center`}>{caseStates.toSession ? caseStates?.toSession : "إلى جلسة"}</Text>
                         </TouchableOpacity>
                         {toVisible && <DateTimePicker
-                        value={caseStates.toSession ? caseStates?.toSession : new Date()}
+                        value={new Date()}
                         onChange={handleToSessionDate}
                         mode="date"
                         />}

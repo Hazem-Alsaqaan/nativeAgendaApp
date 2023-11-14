@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { ShowSingleCase } from "../redux/actions/casesAction"
 import { Ionicons } from '@expo/vector-icons'; 
 import tw from "twrnc"
+import ToastMessage from "../components/ToastMessage"
 
 const SingleCaseScreen =()=>{
     const navigation = useNavigation()
@@ -12,6 +13,7 @@ const SingleCaseScreen =()=>{
     const {token} = useSelector((state)=> state.authSlice)
     const {singleCase} = useSelector((state)=> state.casesSlice)
     const {singleCaseLoading} = useSelector((state)=> state.casesSlice)
+    const {singleCaseError} = useSelector((state)=> state.casesSlice)
     const dispatch = useDispatch()
 
     useEffect(()=>{
@@ -62,6 +64,7 @@ const SingleCaseScreen =()=>{
                 </View>
             </View>
             }
+            {singleCaseError && ToastMessage(singleCaseError)}
         </ImageBackground>
         </>
     )

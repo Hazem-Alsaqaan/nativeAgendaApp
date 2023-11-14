@@ -8,14 +8,13 @@ import {
 } from "react-native";
 import { loginFulfilled, loginPending, loginRejected, registerFulfilled, registerPending, registerRejected } from "../redux/reducers/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-// import Toast from "react-native-toast-message"
 import tw from "twrnc"
-// import {
-    // GoogleSignin
+import {
+    GoogleSignin,
     // GoogleSigninButton,
     // statusCodes,
-// } from '@react-native-google-signin/google-signin';
-// import { useEffect } from "react";
+} from '@react-native-google-signin/google-signin';
+import { useEffect } from "react";
 import axios from "axios";
 import ToastMessage from "../components/ToastMessage";
 
@@ -26,32 +25,32 @@ const LoginScreen = () => {
     const{registerLoading} = useSelector((state)=>state.authSlice)
     const{registerError} = useSelector((state)=>state.authSlice)
     const dispatch = useDispatch()
-    // useEffect(()=>{
-    //     GoogleSignin.configure({
-    //         webClientId: '85768740510-sa9vgom66hqrgjc7681c5tpr85vtffe4.apps.googleusercontent.com'
-    //     });
-    // },[])
+    useEffect(()=>{
+        GoogleSignin.configure({
+            webClientId: '85768740510-sa9vgom66hqrgjc7681c5tpr85vtffe4.apps.googleusercontent.com'
+        });
+    },[])
     
     // handle login 
     const submitGoogleSignIn = async () => {
         dispatch(loginPending())
         try {
-            // await GoogleSignin.hasPlayServices();
-            // const userInfo = await GoogleSignin.signIn();
-            // const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
-            //     {
-            //         name: userInfo.user.name,
-            //         email: userInfo.user.email,
-            //         picture: userInfo.user.photo
-            //     })
-            // dispatch(loginFulfilled(userLoginInfo.data))
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
             const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
                 {
-                    name: "hazem khalil",
-                    email: "hazem.hamdy.khalil@gmail.com",
-                    picture: "https://lh3.googleusercontent.com/a/ACg8ocJA8nk3tPyVwSiQIwGxyLgUIJBe7goY3NcNgbsNCIaDjA=s96-c"
+                    name: userInfo.user.name,
+                    email: userInfo.user.email,
+                    picture: userInfo.user.photo
                 })
             dispatch(loginFulfilled(userLoginInfo.data))
+            // const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
+            //     {
+            //         name: "hazem khalil",
+            //         email: "hazem.hamdy.khalil@gmail.com",
+            //         picture: "https://lh3.googleusercontent.com/a/ACg8ocJA8nk3tPyVwSiQIwGxyLgUIJBe7goY3NcNgbsNCIaDjA=s96-c"
+            //     })
+            // dispatch(loginFulfilled(userLoginInfo.data))
         } catch (err) {
             if(err.message === "Network Error"){
                 ToastMessage("تاكد من اتصالك بالانترنت")
@@ -69,22 +68,22 @@ const LoginScreen = () => {
     const submitGoogleRegister = async () => {
         dispatch(registerPending())
         try {
-            // await GoogleSignin.hasPlayServices();
-            // const userInfo = await GoogleSignin.signIn();
-            // const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/register`,
-            //     {
-            //         name: userInfo.user.name,
-            //         email: userInfo.user.email,
-            //         picture: userInfo.user.photo
-            //     })
-            // dispatch(registerFulfilled(userLoginInfo.data))
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
             const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/register`,
                 {
-                    name: "hazem khalil",
-                    email: "hazem.hamdy.khalil@gmail.com",
-                    picture: "https://lh3.googleusercontent.com/a/ACg8ocJA8nk3tPyVwSiQIwGxyLgUIJBe7goY3NcNgbsNCIaDjA=s96-c"
+                    name: userInfo.user.name,
+                    email: userInfo.user.email,
+                    picture: userInfo.user.photo
                 })
             dispatch(registerFulfilled(userLoginInfo.data))
+            // const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/register`,
+            //     {
+            //         name: "hazem khalil",
+            //         email: "hazem.hamdy.khalil@gmail.com",
+            //         picture: "https://lh3.googleusercontent.com/a/ACg8ocJA8nk3tPyVwSiQIwGxyLgUIJBe7goY3NcNgbsNCIaDjA=s96-c"
+            //     })
+            // dispatch(registerFulfilled(userLoginInfo.data))
         } catch (err) {
             if(err.message === "Network Error"){
                 ToastMessage("تأكد من اتصالك بالانترنت")
@@ -131,7 +130,7 @@ const LoginScreen = () => {
                             height={38}
                             />
                             <View style={tw`flex-1 items-center justify-center`}>
-                            <Text style={tw`text-white text-base font-bold flex items-center justify-center`}>{loginLoading? <ActivityIndicator size="large"/> : `تسجيل الدخول`}</Text>
+                            <Text style={tw`text-white text-base font-bold flex items-center justify-center`}>{loginLoading? <ActivityIndicator size="small" color="#fff"/> : `تسجيل الدخول`}</Text>
                             </View>
                         </TouchableOpacity>
                     <View style={tw`flex items-center justify-center my-8`}>
@@ -147,7 +146,7 @@ const LoginScreen = () => {
                             height={38}
                             />
                             <View style={tw`flex-1 items-center justify-center`}>
-                                <Text style={tw`text-white text-base font-bold flex items-center justify-center`}>{registerLoading ? <ActivityIndicator size="large"/> : `إنشاء حساب`}</Text>
+                                <Text style={tw`text-white text-base font-bold flex items-center justify-center`}>{registerLoading ? <ActivityIndicator size="small" color="#fff"/> : `إنشاء حساب`}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>

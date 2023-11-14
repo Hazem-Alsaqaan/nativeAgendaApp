@@ -28,7 +28,7 @@ const DateSelectedScreen = ()=>{
                 <CreateCase />
                 <ShowDateCases isRefresh = {isRefresh}/>
                 <View>
-                {   Object.keys(errorMessage).length > 0 && ToastMessage(errorMessage) }
+                {   errorMessage && ToastMessage(errorMessage) }
                 </View>
         </ImageBackground>
         </ScrollView>

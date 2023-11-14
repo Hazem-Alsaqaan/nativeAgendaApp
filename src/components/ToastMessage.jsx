@@ -2,7 +2,7 @@ import { ToastAndroid } from "react-native"
 
 
 const ToastMessage = (toastMessage)=>{
-    if(Object.keys(toastMessage).length > 0){
+    if(toastMessage){
         ToastAndroid.showWithGravity(
             toastMessage,
             ToastAndroid.LONG,
