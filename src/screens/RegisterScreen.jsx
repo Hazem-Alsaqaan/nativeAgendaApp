@@ -1,103 +1,133 @@
-import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import {
+    ActivityIndicator,
+    Image,
+    SafeAreaView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import { registerFulfilled, registerPending, registerRejected } from "../redux/reducers/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import { useNavigation } from "@react-navigation/native"
+import tw from "twrnc"
+import {
+    GoogleSignin,
+    statusCodes,
+} from '@react-native-google-signin/google-signin';
+import { useEffect } from "react";
+import ToastMessage from "../components/ToastMessage";
 
 
-
-const RegisterScreen = ()=>{
+const RegisterScreen = () => {
     const navigation = useNavigation()
+    const{registerLoading} = useSelector((state)=>state.authSlice)
+    const{registerError} = useSelector((state)=>state.authSlice)
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        GoogleSignin.configure({
+            webClientId: '85768740510-sa9vgom66hqrgjc7681c5tpr85vtffe4.apps.googleusercontent.com'
+        });
+    },[registerError])
+    
+    // handle register
+    const submitGoogleRegister = async () => {
+        dispatch(registerPending())
+        try {
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/register`,
+                {
+                    name: userInfo.user.name,
+                    email: userInfo.user.email,
+                    picture: userInfo.user.photo
+                })
+            dispatch(registerFulfilled(userLoginInfo.data))
+            // const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/register`,
+            //     {
+            //         name: "hazem khalil",
+            //         email: "hazem.hamdy.khalil@gmail.com",
+            //         picture: "https://lh3.googleusercontent.com/a/ACg8ocJA8nk3tPyVwSiQIwGxyLgUIJBe7goY3NcNgbsNCIaDjA=s96-c"
+            //     })
+            // dispatch(registerFulfilled(userLoginInfo.data))
+        } catch (err) {
+            if (err.code === statusCodes.SIGN_IN_CANCELLED) {
+                ToastMessage("user cancelled the login flow")
+            } else if (err.code === statusCodes.IN_PROGRESS) {
+                ToastMessage("operation (e.g. sign in) is in progress already")
+            } else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                ToastMessage('play services not available or outdated')
+            }else if(err.message === "Network Error"){
+                ToastMessage("تأكد من اتصالك بالانترنت")
+            }else if(err.response.data.error_description){
+                ToastMessage(err.response.data.error_description)
+            }else if (err.response.data.message) {
+                ToastMessage(err.response.data.message)
+            }else{
+                ToastMessage(err.response.data)
+            }
+            dispatch(registerRejected())
+        }
+    };
+        
     return (
         <>
-        <ImageBackground
-        source={{uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1691845471/judicial_agenda/14547742_rm218batch4-ning-34_fxd8rj.jpg"}}
-        style={styles.container}
-        >
-            <View>
-                <Text style={styles.title}>أهلا بــك</Text>
-            </View>
-            <Image
-            source={{uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1694094219/judicial_agenda/letter_5075929_swbsj1.png"}}
-            width={280}
-            height={450}
-            />
-            <Text style={styles.paragraph}>قم بانشاء حساب باستخدام بريدك الالكترونى</Text>
-            <TouchableOpacity
-            style={styles.googleButton}
-            onPress={()=>navigation.navigate("home")}
-            >
-                <Image
-                source={{uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1694190476/google_2504914_ft5isu.png"}}
-                width={45}
-                height={45}
-                />
-                <View style={styles.googleButtonTextContainer}>
-                    <Text style={styles.googleButtonText}>Google</Text>
+            <SafeAreaView style={tw`bg-white flex items-center justify-center min-h-full w-full`} >
+                {/* >>>>>>>>>>>>>>>>>>> Top Side <<<<<<<<<<<<<<<<<<<<*/}
+                <View style={tw`flex-6 justify-center items-center w-full bg-blue-500 rounded-b-[40px]`}>
+                    <Image
+                        source={require("../../assets/register.png")}
+                        style={tw`w-full h-6/9`}
+                    />
                 </View>
-            </TouchableOpacity>
-            <View style={styles.footerParagraph}>
-                <Text onPress={()=>navigation.navigate("login")} style={styles.textTwo}> تسجيل الدخول</Text>
-                <Text style={styles.textOne}>لديك حساب بالفعل؟</Text>
-            </View>
-        </ImageBackground>
+                {/* >>>>>>>>>>>>>>>>>>> Bottom Side <<<<<<<<<<<<<<<<<<<<*/}
+                <View style={tw`bg-white w-full flex-4 justify-center items-center`}>
+                    <View style={tw`w-20 h-20 mb-5 -mt-16 rounded-full flex justify-center items-center border-solid border-2 border-white shadow-xl`}>
+                        <Image
+                        source={require("../../assets/user.png")}
+                        style={tw`w-20 h-20`}
+                        />
+                    </View>
+                    
+                    <View style={tw`flex items-center justify-center`}>
+                        <Text style={tw`text-xl text-sky-500 font-bold`}> قم بإنشاء حساب جديد</Text>
+                    {/* <<<<<<<<<<<<<<<<<<  REGISTER BUTTON  >>>>>>>>>>>>>>>>> */}
+                        <TouchableOpacity
+                            style={tw`bg-blue-500 rounded-md p-1 my-2 flex flex-row items-center justify-center w-64 h-11`}
+                            onPress={()=>submitGoogleRegister()}
+                            >
+                            <Image
+                            source={require("../../assets/google_icon.png")}
+                            style={tw`w-9 h-9`}
+                            />
+                            <View style={tw`flex-1 items-center justify-center`}>
+                                <Text style={tw`text-white text-xl font-bold flex items-center justify-center`}>{registerLoading ? <ActivityIndicator size="small" color="#fff"/> : `إنشاء حساب`}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={tw`flex items-center justify-center m-4 mb-8`}>
+                        <Text style={tw`text-xl font-bold text-black`}>
+                            أو سجل الدخول باستخدام بريدك الالكترونى
+                        </Text>
+                    {/* <<<<<<<<<<<<<<<<<<  LOGIN BUTTON  >>>>>>>>>>>>>>>>> */}
+                        <TouchableOpacity
+                            style={tw`bg-blue-500 rounded-md p-1 my-2 flex flex-row items-center justify-center w-64 h-11`}
+                            onPress={()=>navigation.navigate("login")}
+                            >
+                            <Image
+                            source={require("../../assets/google_icon.png")}
+                            style={tw`w-9 h-9`}
+                            />
+                            <View style={tw`flex-1 items-center justify-center`}>
+                            <Text style={tw`text-white text-xl font-bold flex items-center justify-center`}>تسجيل الدخول</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </SafeAreaView>
         </>
-    )
-}
-export default RegisterScreen
+    );
+};
+export default RegisterScreen;
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        minHeight: "100vh",
-    },
-    title:{
-        color: "#0ea4e8",
-        fontSize: 44,
-        fontWeight: "900",
-    },
-    paragraph: {
-        color: "#0ea4e8",
-        fontSize: 20,
-        fontWeight: "bold"
-    },
-    googleButton:{
-        backgroundColor: "#fff",
-        borderRadius: 8,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 10,
-        marginVertical: 20,
-        width: 220,
-        height: 50,
-        shadowColor: "#777",
-        shadowOffset: {width: 0, height: 1},
-        shadowOpacity: 0.8,
-        shadowRadius: 5,
-        elevation: 15
-    },
-    googleButtonTextContainer:{
-        flex: 1,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    googleButtonText:{
-        color: "#0ea4e8",
-        fontSize: 24
-    },
-    footerParagraph: {
-        display: "flex",
-        flexDirection: "row"
-    },
-    textOne:{
-        fontSize: 20,
-        fontWeight: "bold"
-    },
-    textTwo:{
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "#0ea4e8"
-    }
-})
