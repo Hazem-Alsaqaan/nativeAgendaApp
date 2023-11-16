@@ -12,7 +12,7 @@ import tw from "twrnc"
 import {
     GoogleSignin,
     // GoogleSigninButton,
-    // statusCodes,
+    statusCodes,
 } from '@react-native-google-signin/google-signin';
 import { useEffect } from "react";
 import axios from "axios";
@@ -52,8 +52,14 @@ const LoginScreen = () => {
             //     })
             // dispatch(loginFulfilled(userLoginInfo.data))
         } catch (err) {
-            if(err.message === "Network Error"){
-                ToastMessage("تاكد من اتصالك بالانترنت")
+            if (err.code === statusCodes.SIGN_IN_CANCELLED) {
+                ToastMessage("user cancelled the login flow")
+            } else if (err.code === statusCodes.IN_PROGRESS) {
+                ToastMessage("operation (e.g. sign in) is in progress already")
+            } else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                ToastMessage('play services not available or outdated')
+            }else if(err.message === "Network Error"){
+                ToastMessage("تأكد من اتصالك بالانترنت")
             }else if(err.response.data.error_description){
                 ToastMessage(err.response.data.error_description)
             }else if (err.response.data.message) {
@@ -85,7 +91,13 @@ const LoginScreen = () => {
             //     })
             // dispatch(registerFulfilled(userLoginInfo.data))
         } catch (err) {
-            if(err.message === "Network Error"){
+            if (err.code === statusCodes.SIGN_IN_CANCELLED) {
+                ToastMessage("user cancelled the login flow")
+            } else if (err.code === statusCodes.IN_PROGRESS) {
+                ToastMessage("operation (e.g. sign in) is in progress already")
+            } else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                ToastMessage('play services not available or outdated')
+            }else if(err.message === "Network Error"){
                 ToastMessage("تأكد من اتصالك بالانترنت")
             }else if(err.response.data.error_description){
                 ToastMessage(err.response.data.error_description)
@@ -121,32 +133,36 @@ const LoginScreen = () => {
                     </Text>
                     {/* <<<<<<<<<<<<<<<<<<  LOGIN BUTTON  >>>>>>>>>>>>>>>>> */}
                         <TouchableOpacity
-                            style={tw`bg-blue-500 rounded-md p-1 my-2 flex flex-row items-center justify-center w-72 h-11`}
+                            style={tw`bg-blue-500 rounded-md p-1 my-2 flex flex-row items-center justify-center w-64 h-11`}
                             onPress={()=>submitGoogleSignIn()}
                             >
                             <Image
-                            source={{uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1694190476/google_2504914_ft5isu.png"}}
-                            width={38}
-                            height={38}
+                            // source={{uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1694190476/google_2504914_ft5isu.png"}}
+                            // width={38}
+                            // height={38}
+                            source={require("../../assets/google_icon.png")}
+                            style={tw`w-9 h-9`}
                             />
                             <View style={tw`flex-1 items-center justify-center`}>
-                            <Text style={tw`text-white text-base font-bold flex items-center justify-center`}>{loginLoading? <ActivityIndicator size="small" color="#fff"/> : `تسجيل الدخول`}</Text>
+                            <Text style={tw`text-white text-xl font-bold flex items-center justify-center`}>{loginLoading? <ActivityIndicator size="small" color="#fff"/> : `تسجيل الدخول`}</Text>
                             </View>
                         </TouchableOpacity>
                     <View style={tw`flex items-center justify-center my-8`}>
                         <Text style={tw`text-xl text-black font-bold`}>أو قم بإنشاء حساب جديد ؟</Text>
                     {/* <<<<<<<<<<<<<<<<<<  REGISTER BUTTON  >>>>>>>>>>>>>>>>> */}
                         <TouchableOpacity
-                            style={tw`bg-blue-500 rounded-md p-1 my-2 flex flex-row items-center justify-center w-72 h-11`}
+                            style={tw`bg-blue-500 rounded-md p-1 my-2 flex flex-row items-center justify-center w-64 h-11`}
                             onPress={()=>submitGoogleRegister()}
                             >
                             <Image
-                            source={{uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1694190476/google_2504914_ft5isu.png"}}
-                            width={38}
-                            height={38}
+                            // source={{uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1694190476/google_2504914_ft5isu.png"}}
+                            // width={38}
+                            // height={38}
+                            source={require("../../assets/google_icon.png")}
+                            style={tw`w-9 h-9`}
                             />
                             <View style={tw`flex-1 items-center justify-center`}>
-                                <Text style={tw`text-white text-base font-bold flex items-center justify-center`}>{registerLoading ? <ActivityIndicator size="small" color="#fff"/> : `إنشاء حساب`}</Text>
+                                <Text style={tw`text-white text-xl font-bold flex items-center justify-center`}>{registerLoading ? <ActivityIndicator size="small" color="#fff"/> : `إنشاء حساب`}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
