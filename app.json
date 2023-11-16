@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "clientNativeAp",
+    "name": "Online AgendA",
     "slug": "clientnativeap",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.hazemalsaqaan.clientNativeAp"
+      "package": "com.hazemalsaqaan.OnlineAgendA"
     },
     "web": {
       "favicon": "./assets/favicon.png"

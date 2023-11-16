@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.hazemalsaqaan.clientNativeAp'
+    namespace 'com.hazemalsaqaan.OnlineAgendA'
     defaultConfig {
-        applicationId 'com.hazemalsaqaan.clientNativeAp'
+        applicationId 'com.hazemalsaqaan.OnlineAgendA'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

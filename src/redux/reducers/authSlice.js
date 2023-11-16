@@ -39,6 +39,8 @@ const authSlice = createSlice({
         registerRejected:(state, action)=>{
             state.registerError = true
             state.registerLoading = false
+            state.currentUser = {}
+            state.token = ""
         },
         logoutPending: (state) =>{
             state.logOutLoading = true
