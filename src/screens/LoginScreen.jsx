@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import tw from "twrnc"
 import {
     GoogleSignin,
-    // GoogleSigninButton,
     statusCodes,
 } from '@react-native-google-signin/google-signin';
 import { useEffect } from "react";
@@ -21,9 +20,7 @@ import ToastMessage from "../components/ToastMessage";
 
 const LoginScreen = () => {
     const{loginLoading} = useSelector((state)=>state.authSlice)
-    const{loginError} = useSelector((state)=>state.authSlice)
     const{registerLoading} = useSelector((state)=>state.authSlice)
-    const{registerError} = useSelector((state)=>state.authSlice)
     const dispatch = useDispatch()
     useEffect(()=>{
         GoogleSignin.configure({
@@ -122,7 +119,7 @@ const LoginScreen = () => {
                 </View>
                 {/* >>>>>>>>>>>>>>>>>>> Bottom Side <<<<<<<<<<<<<<<<<<<<*/}
                 <View style={tw`bg-white w-full flex-4 justify-center items-center`}>
-                    <View style={tw`w-20 h-20 mb-5 -mt-12 rounded-full flex justify-center items-center border-solid border-2 border-white shadow-xl`}>
+                    <View style={tw`w-20 h-20 mb-5 -mt-16 rounded-full flex justify-center items-center border-solid border-2 border-white shadow-xl`}>
                         <Image
                         source={require("../../assets/user.png")}
                         style={tw`w-20 h-20`}
@@ -147,7 +144,7 @@ const LoginScreen = () => {
                             <Text style={tw`text-white text-xl font-bold flex items-center justify-center`}>{loginLoading? <ActivityIndicator size="small" color="#fff"/> : `تسجيل الدخول`}</Text>
                             </View>
                         </TouchableOpacity>
-                    <View style={tw`flex items-center justify-center my-8`}>
+                    <View style={tw`flex items-center justify-center m-4 mb-8`}>
                         <Text style={tw`text-xl text-black font-bold`}>أو قم بإنشاء حساب جديد ؟</Text>
                     {/* <<<<<<<<<<<<<<<<<<  REGISTER BUTTON  >>>>>>>>>>>>>>>>> */}
                         <TouchableOpacity
