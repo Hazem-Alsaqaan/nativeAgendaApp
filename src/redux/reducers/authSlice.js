@@ -24,8 +24,6 @@ const authSlice = createSlice({
         loginRejected: (state, action)=>{
             state.loginError = true
             state.loginLoading = false
-        },
-        logout: (state) =>{
             state.currentUser = {}
             state.token = ""
         },
