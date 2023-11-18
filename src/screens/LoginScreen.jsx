@@ -53,18 +53,25 @@ const LoginScreen = () => {
         } catch (err) {
             if (err.code === statusCodes.SIGN_IN_CANCELLED) {
                 ToastMessage("user cancelled the login flow")
+                dispatch(loginRejected())
             } else if (err.code === statusCodes.IN_PROGRESS) {
                 ToastMessage("operation (e.g. sign in) is in progress already")
+                dispatch(loginRejected())
             } else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 ToastMessage('play services not available or outdated')
+                dispatch(loginRejected())
             }else if(err.message === "Network Error"){
                 ToastMessage("تأكد من اتصالك بالانترنت")
+                dispatch(loginRejected())
             }else if(err.response.data.error_description){
                 ToastMessage(err.response.data.error_description)
+                dispatch(loginRejected())
             }else if (err.response.data.message) {
                 ToastMessage(err.response.data.message)
+                dispatch(loginRejected())
             }else{
                 ToastMessage(err.response.data)
+                dispatch(loginRejected())
             }
             dispatch(loginRejected())
         }
