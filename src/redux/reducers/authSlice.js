@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-// import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const authSlice = createSlice({
     name: "auth",
@@ -8,7 +7,6 @@ const authSlice = createSlice({
         token: "",
         loginLoading: false,
         logOutLoading: false,
-        loginError: false,
         registerLoading: false,
         registerError: false,
     },
@@ -22,7 +20,6 @@ const authSlice = createSlice({
             state.token = action.payload.token
         },
         loginRejected: (state, action)=>{
-            state.loginError = true
             state.loginLoading = false
             state.currentUser = {}
             state.token = ""

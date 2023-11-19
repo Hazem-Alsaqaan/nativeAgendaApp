@@ -5,35 +5,40 @@ import {
     Text,
     TouchableOpacity,
     View,
+    useWindowDimensions,
 } from "react-native";
 import { loginFulfilled, loginPending, loginRejected } from "../redux/reducers/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc"
+
 import {
         GoogleSignin,
         statusCodes,
     } from '@react-native-google-signin/google-signin';
     import { useEffect } from "react";
     import ToastMessage from "../components/ToastMessage";
+import { useState } from "react";
 
 
 const LoginScreen = () => {
+    const { height  } = useWindowDimensions()
     const navigation = useNavigation()
     const{loginLoading} = useSelector((state)=>state.authSlice)
-    const{loginError} = useSelector((state)=>state.authSlice)
     const dispatch = useDispatch()
+
     useEffect(()=>{
         GoogleSignin.configure({
             webClientId: '85768740510-sa9vgom66hqrgjc7681c5tpr85vtffe4.apps.googleusercontent.com'
         });
-    },[loginError])
-    
+    },[])
+    const backgroundHeight = height < 400 ? "h-6/9" : "h-full"
     // handle login 
     const submitGoogleSignIn = async () => {
         dispatch(loginPending())
         try {
+            GoogleSignin.getCurrentUser()
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
             const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
@@ -46,32 +51,25 @@ const LoginScreen = () => {
             // const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
             //     {
             //         name: "hazem khalil",
-            //         email: "hazem.hamdy.khalil@gmail.com",
+            //         email: "hazem.hamdy.khalill@gmail.com",
             //         picture: "https://lh3.googleusercontent.com/a/ACg8ocJA8nk3tPyVwSiQIwGxyLgUIJBe7goY3NcNgbsNCIaDjA=s96-c"
             //     })
-            // dispatch(loginFulfilled(userLoginInfo.data))
+            //     dispatch(loginFulfilled(userLoginInfo.data))
         } catch (err) {
             if (err.code === statusCodes.SIGN_IN_CANCELLED) {
                 ToastMessage("user cancelled the login flow")
-                dispatch(loginRejected())
             } else if (err.code === statusCodes.IN_PROGRESS) {
                 ToastMessage("operation (e.g. sign in) is in progress already")
-                dispatch(loginRejected())
             } else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 ToastMessage('play services not available or outdated')
-                dispatch(loginRejected())
             }else if(err.message === "Network Error"){
                 ToastMessage("تأكد من اتصالك بالانترنت")
-                dispatch(loginRejected())
             }else if(err.response.data.error_description){
                 ToastMessage(err.response.data.error_description)
-                dispatch(loginRejected())
             }else if (err.response.data.message) {
                 ToastMessage(err.response.data.message)
-                dispatch(loginRejected())
             }else{
                 ToastMessage(err.response.data)
-                dispatch(loginRejected())
             }
             dispatch(loginRejected())
         }
@@ -84,7 +82,7 @@ const LoginScreen = () => {
                     <View style={tw`flex-6 justify-center items-center w-full bg-blue-500 rounded-b-[40px]`}>
                         <Image
                             source={require("../../assets/login_bg-removebg-preview.png")}
-                            style={tw`w-full h-6/9`}
+                            style={tw`w-full ${backgroundHeight}`}
                         />
                     </View>
                     {/* >>>>>>>>>>>>>>>>>>> Bottom Side <<<<<<<<<<<<<<<<<<<<*/}

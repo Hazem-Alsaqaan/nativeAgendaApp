@@ -34,32 +34,32 @@ const SingleCaseScreen =()=>{
             <ActivityIndicator size="large"/>
             :
             <View>
-                <View>
-                    <Text style={tw`bg-red-500 w-40  text-white p-2 text-xl  rounded-r-xl  shadow-2xl flex items-center justify-center z-30`}>رقم القضية</Text>
+                <View style={tw`flex items-center justify-center`}>
+                    <Text style={tw`bg-red-500 w-40  text-white p-2 text-xl  rounded-xl  shadow-2xl flex items-center justify-center z-30`}>رقم القضية</Text>
                     <Text style={tw`bg-white bg-opacity-30   text-base py-2 px-10 flex items-center rounded-full z-20 font-bold`}>{`${singleCase?.number} لسنة ${singleCase?.theYear}`}</Text>
                 </View>
-                <View>
-                    <Text style={tw`bg-purple-700 w-40  text-white p-2 text-xl  rounded-r-xl  shadow-2xl flex items-center justify-center z-30`}>المدعى</Text>
+                <View style={tw`flex items-center justify-center`}>
+                    <Text style={tw`bg-purple-700 w-40  text-white p-2 text-xl  rounded-xl  shadow-2xl flex items-center justify-center z-30`}>المدعى</Text>
                     <Text style={tw`bg-white bg-opacity-30   text-base py-2 px-10 flex items-center rounded-full z-20 font-bold`}>{singleCase?.plaintiff}</Text>
                 </View>
-                <View>
-                    <Text style={tw`bg-amber-400 w-40  text-white p-2 text-xl  rounded-r-xl  shadow-2xl flex items-center justify-center z-30`}>المدعى عليه</Text>
+                <View style={tw`flex items-center justify-center`}>
+                    <Text style={tw`bg-amber-400 w-40  text-white p-2 text-xl  rounded-xl  shadow-2xl flex items-center justify-center z-30`}>المدعى عليه</Text>
                     <Text style={tw`bg-white bg-opacity-30   text-base py-2 px-10 flex items-center rounded-full z-20 font-bold`}>{singleCase?.defendant}</Text>
                 </View>
-                <View>
-                    <Text style={tw`bg-sky-500 w-40  text-white p-2 text-xl  rounded-r-xl  shadow-2xl flex items-center justify-center z-30`}>نوع الدعوى</Text>
+                <View style={tw`flex items-center justify-center`}>
+                    <Text style={tw`bg-sky-500 w-40  text-white p-2 text-xl  rounded-xl  shadow-2xl flex items-center justify-center z-30`}>نوع الدعوى</Text>
                     <Text style={tw`bg-white bg-opacity-30   text-base py-2 px-10 flex items-center rounded-full z-20 font-bold`}>{singleCase?.typeCase}</Text>
                 </View>
-                <View>
-                    <Text style={tw`bg-green-500 w-40  text-white p-2 text-xl  rounded-r-xl  shadow-2xl flex items-center justify-center z-30`}>من جلسة</Text>
+                <View style={tw`flex items-center justify-center`}>
+                    <Text style={tw`bg-green-500 w-40  text-white p-2 text-xl  rounded-xl  shadow-2xl flex items-center justify-center z-30`}>من جلسة</Text>
                     <Text style={tw`bg-white bg-opacity-30   text-base py-2 px-10 flex items-center rounded-full z-20 font-bold`}>{singleCase?.fromSession}</Text>
                 </View>
-                <View>
-                    <Text style={tw`bg-pink-500 w-40  text-white p-2 text-xl  rounded-r-xl  shadow-2xl flex items-center justify-center z-30`}>إلى جلسة</Text>
+                <View style={tw`flex items-center justify-center`}>
+                    <Text style={tw`bg-pink-500 w-40  text-white p-2 text-xl  rounded-xl  shadow-2xl flex items-center justify-center z-30`}>إلى جلسة</Text>
                     <Text style={tw`bg-white bg-opacity-30   text-base py-2 px-10 flex items-center rounded-full z-20 font-bold`}>{singleCase?.toSession}</Text>
                 </View>
-                <View>
-                    <Text style={tw`bg-blue-700 w-40  text-white p-2 text-xl  rounded-r-xl  shadow-2xl flex items-center justify-center z-30`}>القرار</Text>
+                <View style={tw`flex items-center justify-center`}>
+                    <Text style={tw`bg-blue-700 w-40  text-white p-2 text-xl  rounded-xl  shadow-2xl flex items-center justify-center z-30`}>القرار</Text>
                     <Text style={tw`bg-white bg-opacity-30   text-base py-2 px-10 flex items-center rounded-full z-20 font-bold`}>{singleCase?.decision}</Text>
                 </View>
             </View>
