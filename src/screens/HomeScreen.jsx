@@ -31,8 +31,8 @@ const HomeScreen = () => {
     }
 
     const signOut = async() => {
+        dispatch(logoutPending())
         try{
-            dispatch(logoutPending())
             Google.GoogleSignin.signOut()
             dispatch(logout())
         }catch(err){

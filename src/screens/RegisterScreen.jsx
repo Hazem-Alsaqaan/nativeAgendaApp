@@ -21,11 +21,11 @@ import ToastMessage from "../components/ToastMessage";
 
 
 const RegisterScreen = () => {
-    const {height} = useWindowDimensions()
+    const { height, width } = useWindowDimensions()
     const navigation = useNavigation()
     const{registerLoading} = useSelector((state)=>state.authSlice)
     const dispatch = useDispatch()
-    const backgroundHeight = height < 400 ? "h-6/9" : "h-full"
+    const backgroundHeight = width < 400 ? "h-6/9" : "h-full"
 
     useEffect(()=>{
         GoogleSignin.configure({
@@ -54,12 +54,11 @@ const RegisterScreen = () => {
             //     })
             // dispatch(registerFulfilled(userLoginInfo.data))
         } catch (err) {
-            dispatch(registerRejected())
             if (err.code === statusCodes.SIGN_IN_CANCELLED) {
                 ToastMessage("user cancelled the login flow")
-            } else if (err.code === statusCodes.IN_PROGRESS) {
+            }else if (err.code === statusCodes.IN_PROGRESS) {
                 ToastMessage("operation (e.g. sign in) is in progress already")
-            } else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            }else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 ToastMessage('play services not available or outdated')
             }else if(err.message === "Network Error"){
                 ToastMessage("تأكد من اتصالك بالانترنت")

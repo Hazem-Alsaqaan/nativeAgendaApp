@@ -22,7 +22,7 @@ import {
 
 
 const LoginScreen = () => {
-    const { height  } = useWindowDimensions()
+    const { height , width } = useWindowDimensions()
     const navigation = useNavigation()
     const{loginLoading} = useSelector((state)=>state.authSlice)
     const dispatch = useDispatch()
@@ -32,12 +32,11 @@ const LoginScreen = () => {
             webClientId: '85768740510-sa9vgom66hqrgjc7681c5tpr85vtffe4.apps.googleusercontent.com'
         });
     },[])
-    const backgroundHeight = height < 400 ? "h-6/9" : "h-full"
+    const backgroundHeight = width < 400 ? "h-6/9" : "h-full"
     // handle login 
     const submitGoogleSignIn = async () => {
         dispatch(loginPending())
         try {
-            GoogleSignin.getCurrentUser()
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
             const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
@@ -46,11 +45,11 @@ const LoginScreen = () => {
                     email: userInfo.user.email,
                     picture: userInfo.user.photo
                 })
-            dispatch(loginFulfilled(userLoginInfo.data))
+                dispatch(loginFulfilled(userLoginInfo.data))
             // const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
             //     {
             //         name: "hazem khalil",
-            //         email: "hazem.hamdy.khalill@gmail.com",
+            //         email: "hazem.hamdy.khalil@gmail.com",
             //         picture: "https://lh3.googleusercontent.com/a/ACg8ocJA8nk3tPyVwSiQIwGxyLgUIJBe7goY3NcNgbsNCIaDjA=s96-c"
             //     })
             //     dispatch(loginFulfilled(userLoginInfo.data))
