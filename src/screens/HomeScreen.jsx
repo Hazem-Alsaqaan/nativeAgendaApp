@@ -5,10 +5,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Feather } from '@expo/vector-icons';
 import { useDispatch, useSelector } from "react-redux"
 import { logout, logoutPending } from "../redux/reducers/authSlice"
-// import * as Google from "@react-native-google-signin/google-signin"
+import * as Google from "@react-native-google-signin/google-signin"
 import tw from "twrnc"
 import ToastMessage from "../components/ToastMessage";
-// import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 const HomeScreen = () => {
@@ -33,21 +32,19 @@ const HomeScreen = () => {
 
     const signOut = async() => {
         try{
-            // AsyncStorage.clear()
             dispatch(logoutPending())
-            // Google.GoogleSignin.signOut()
+            Google.GoogleSignin.signOut()
             dispatch(logout())
         }catch(err){
-            // if(err.code === Google.statusCodes.SIGN_IN_CANCELLED){
-            //     ToastMessage("IN CANCELED")
-            // }else if(err.code === Google.statusCodes.IN_PROGRESS){
-            //     ToastMessage("IN PROGRESS")
-            // }else if (err.code === Google.statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-            //     ToastMessage("IN SERVICES")
-            // }else{
-            //     ToastMessage(err)
-            // }
-            console.log(err)
+            if(err.code === Google.statusCodes.SIGN_IN_CANCELLED){
+                ToastMessage("IN CANCELED")
+            }else if(err.code === Google.statusCodes.IN_PROGRESS){
+                ToastMessage("IN PROGRESS")
+            }else if (err.code === Google.statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                ToastMessage("IN SERVICES")
+            }else{
+                ToastMessage(err)
+            }
         }
     }
     return (

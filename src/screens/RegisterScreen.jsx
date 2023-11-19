@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native"
 import tw from "twrnc"
-import { useState } from "react";
 import {
     GoogleSignin,
     statusCodes,

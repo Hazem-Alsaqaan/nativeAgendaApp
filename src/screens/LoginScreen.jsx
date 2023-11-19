@@ -19,7 +19,6 @@ import {
     } from '@react-native-google-signin/google-signin';
     import { useEffect } from "react";
     import ToastMessage from "../components/ToastMessage";
-import { useState } from "react";
 
 
 const LoginScreen = () => {
