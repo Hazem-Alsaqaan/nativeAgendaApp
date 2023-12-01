@@ -16,23 +16,38 @@ import {
     GoogleSignin,
     statusCodes,
 } from '@react-native-google-signin/google-signin';
-import { useEffect } from "react";
 import ToastMessage from "../components/ToastMessage";
-
+import { useEffect } from "react";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 const RegisterScreen = () => {
+    const [fontsLoaded] = useFonts({
+        baloo: require("../../assets/fonts/BalooBhaijaan2-ExtraBold.ttf"),
+        SemiBold: require("../../assets/fonts/Cairo-SemiBold.ttf"),
+        Bold: require("../../assets/fonts/Cairo-Bold.ttf"),
+        extra: require("../../assets/fonts/Cairo-ExtraBold.ttf"),
+    });
+    useEffect(() => {
+        const cleanerFont = async () => {
+            if (fontsLoaded) {
+                await SplashScreen.preventAutoHideAsync();
+            }
+        };
+        cleanerFont();
+    }, [fontsLoaded]);
     const { height, width } = useWindowDimensions()
     const navigation = useNavigation()
-    const{registerLoading} = useSelector((state)=>state.authSlice)
+    const { registerLoading } = useSelector((state) => state.authSlice)
     const dispatch = useDispatch()
     const backgroundHeight = width < 400 ? "h-6/9" : "h-full"
 
-    useEffect(()=>{
+    useEffect(() => {
         GoogleSignin.configure({
             webClientId: '85768740510-sa9vgom66hqrgjc7681c5tpr85vtffe4.apps.googleusercontent.com'
         });
-    },[])
-    
+    }, [])
+
     // handle register
     const submitGoogleRegister = async () => {
         dispatch(registerPending())
@@ -56,23 +71,23 @@ const RegisterScreen = () => {
         } catch (err) {
             if (err.code === statusCodes.SIGN_IN_CANCELLED) {
                 ToastMessage("user cancelled the login flow")
-            }else if (err.code === statusCodes.IN_PROGRESS) {
+            } else if (err.code === statusCodes.IN_PROGRESS) {
                 ToastMessage("operation (e.g. sign in) is in progress already")
-            }else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            } else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 ToastMessage('play services not available or outdated')
-            }else if(err.message === "Network Error"){
+            } else if (err.message === "Network Error") {
                 ToastMessage("تأكد من اتصالك بالانترنت")
-            }else if(err.response.data.error_description){
+            } else if (err.response.data.error_description) {
                 ToastMessage(err.response.data.error_description)
-            }else if (err.response.data.message) {
+            } else if (err.response.data.message) {
                 ToastMessage(err.response.data.message)
-            }else{
+            } else {
                 ToastMessage(err.response.data)
             }
             dispatch(registerRejected())
         }
     };
-        
+    if (!fontsLoaded) return null;
     return (
         <>
             <SafeAreaView style={tw`bg-white flex items-center justify-center min-h-full w-full`} >
@@ -87,42 +102,42 @@ const RegisterScreen = () => {
                 <View style={tw`bg-white w-full flex-4 justify-center items-center`}>
                     <View style={tw`w-20 h-20 mb-5 -mt-16 rounded-full flex justify-center items-center border-solid border-2 border-white shadow-xl`}>
                         <Image
-                        source={require("../../assets/user.png")}
-                        style={tw`w-20 h-20`}
+                            source={require("../../assets/user.png")}
+                            style={tw`w-20 h-20`}
                         />
                     </View>
-                    
+
                     <View style={tw`flex items-center justify-center`}>
-                        <Text style={tw`text-xl text-sky-500 font-bold`}> قم بإنشاء حساب جديد</Text>
-                    {/* <<<<<<<<<<<<<<<<<<  REGISTER BUTTON  >>>>>>>>>>>>>>>>> */}
+                        <Text style={[{ fontFamily: "Bold" }, tw`text-xl text-sky-500`]}> قم بإنشاء حساب جديد</Text>
+                        {/* <<<<<<<<<<<<<<<<<<  REGISTER BUTTON  >>>>>>>>>>>>>>>>> */}
                         <TouchableOpacity
                             style={tw`bg-blue-500 rounded-md p-1 my-2 flex flex-row items-center justify-center w-64 h-11`}
-                            onPress={()=>submitGoogleRegister()}
-                            >
+                            onPress={() => submitGoogleRegister()}
+                        >
                             <Image
-                            source={require("../../assets/google_icon.png")}
-                            style={tw`w-9 h-9`}
+                                source={require("../../assets/google_icon.png")}
+                                style={tw`w-9 h-9`}
                             />
-                            <View style={tw`flex-1 items-center justify-center`}>
-                                <Text style={tw`text-white text-xl font-bold flex items-center justify-center`}>{registerLoading ? <ActivityIndicator size="small" color="#fff"/> : `إنشاء حساب`}</Text>
+                            <View style={tw`h-full flex-1 items-center justify-end`}>
+                                <Text style={[{ fontFamily: "SemiBold" }, tw`text-white text-xl`]}>{registerLoading ? <ActivityIndicator size="small" color="#fff" /> : `إنشاء حساب`}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
                     <View style={tw`flex items-center justify-center m-4 mb-8`}>
-                        <Text style={tw`text-xl font-bold text-black`}>
+                        <Text style={[{ fontFamily: "SemiBold" }, tw`text-xl text-black`]}>
                             أو سجل الدخول باستخدام بريدك الالكترونى
                         </Text>
-                    {/* <<<<<<<<<<<<<<<<<<  LOGIN BUTTON  >>>>>>>>>>>>>>>>> */}
+                        {/* <<<<<<<<<<<<<<<<<<  LOGIN BUTTON  >>>>>>>>>>>>>>>>> */}
                         <TouchableOpacity
                             style={tw`bg-blue-500 rounded-md p-1 my-2 flex flex-row items-center justify-center w-64 h-11`}
-                            onPress={()=>navigation.navigate("login")}
-                            >
+                            onPress={() => navigation.navigate("login")}
+                        >
                             <Image
-                            source={require("../../assets/google_icon.png")}
-                            style={tw`w-9 h-9`}
+                                source={require("../../assets/google_icon.png")}
+                                style={tw`w-9 h-9`}
                             />
-                            <View style={tw`flex-1 items-center justify-center`}>
-                            <Text style={tw`text-white text-xl font-bold flex items-center justify-center`}>تسجيل الدخول</Text>
+                            <View style={tw`h-full flex-1 items-center justify-end`}>
+                                <Text style={[{ fontFamily: "SemiBold" }, tw`text-white text-xl`]}>تسجيل الدخول</Text>
                             </View>
                         </TouchableOpacity>
                     </View>

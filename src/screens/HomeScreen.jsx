@@ -11,7 +11,7 @@ import ToastMessage from "../components/ToastMessage";
 
 
 const HomeScreen = () => {
-    const{logOutLoading} = useSelector((state)=>state.authSlice)
+    const { logOutLoading } = useSelector((state) => state.authSlice)
     const navigation = useNavigation()
     const [currentDate, setCurrentDate] = useState(new Date())
     const [showDate, setShowDate] = useState(false)
@@ -30,19 +30,20 @@ const HomeScreen = () => {
         })
     }
 
-    const signOut = async() => {
+    const signOut = async () => {
         dispatch(logoutPending())
-        try{
+        try {
             Google.GoogleSignin.signOut()
             dispatch(logout())
-        }catch(err){
-            if(err.code === Google.statusCodes.SIGN_IN_CANCELLED){
+        } catch (err) {
+            // console.log(err)
+            if (err.code === Google.statusCodes.SIGN_IN_CANCELLED) {
                 ToastMessage("IN CANCELED")
-            }else if(err.code === Google.statusCodes.IN_PROGRESS){
+            } else if (err.code === Google.statusCodes.IN_PROGRESS) {
                 ToastMessage("IN PROGRESS")
-            }else if (err.code === Google.statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            } else if (err.code === Google.statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 ToastMessage("IN SERVICES")
-            }else{
+            } else {
                 ToastMessage(err)
             }
         }
@@ -57,7 +58,7 @@ const HomeScreen = () => {
                         <View style={tw`flex justify-center items-center my-1`}>
                             <View style={tw`w-20 h-20 rounded-full border-solid border-2 border-gray-200 shadow-2xl`}>
                                 <Image
-                                    source={{uri: currentUser?.picture}}
+                                    source={{ uri: currentUser?.picture }}
                                     style={tw`w-full h-full rounded-full`}
                                 />
                             </View>
@@ -73,12 +74,9 @@ const HomeScreen = () => {
                         <TouchableOpacity
                             style={tw`w-52 bg-sky-500 py-2 px-4 mb-5 rounded-lg shadow-2xl flex items-center justify-center`}
                             onPress={() => setShowDate(!showDate)}>
-                            <Text style={tw`text-white text-2xl font-bold`}>حدد اليوم</Text>
+                            <Text style={tw`text-white text-2xl font-bold`}>عرض القضايا</Text>
                         </TouchableOpacity>
-                        <Image
-                            source={{ uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1693517092/judicial_agenda/main_icon_va2l3e.png" }}
-                            style={tw`w-56 h-56`}
-                        />
+                        <Image style={tw`w-56 h-56`} source={{ uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1693517092/judicial_agenda/main_icon_va2l3e.png" }} />
                         {showDate ?
                             <DateTimePicker
                                 value={currentDate}
@@ -105,7 +103,7 @@ const HomeScreen = () => {
                     <TouchableOpacity
                         style={tw`bg-sky-500 rounded-lg px-5 py-2 flex items-center justify-center mt-5 shadow-2xl flex-row`}
                         onPress={() => signOut()}>
-                        <Text style={tw`text-white font-bold text-xl pr-2`}>{logOutLoading ? <ActivityIndicator size="small"/> : `تسجيل الخروج`}</Text>
+                        <Text style={tw`text-white font-bold text-xl pr-2`}>{logOutLoading ? <ActivityIndicator size="small" /> : `تسجيل الخروج`}</Text>
                         <Feather name="power" size={24} color="white" />
                     </TouchableOpacity>
                 </View>

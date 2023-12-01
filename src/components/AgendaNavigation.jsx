@@ -5,7 +5,6 @@ import LoginScreen from "../screens/LoginScreen"
 import RegisterScreen from "../screens/RegisterScreen"
 import DateSelectedScreen from "../screens/DateSelectedScreen"
 import { useSelector } from "react-redux"
-import SingleCaseScreen from "../screens/SingleCaseScreen"
 
 const StackOutside = createNativeStackNavigator()
 const StackInside = createNativeStackNavigator()
@@ -16,7 +15,6 @@ const InSideNavigator = ()=>{
             <StackInside.Navigator initialRouteName="home">
                 <StackInside.Screen name="home" component={HomeScreen} options={{headerShown: false}}/>
                 <StackInside.Screen name="DateSelected" component={DateSelectedScreen} options={{headerShown: false}}/>
-                <StackInside.Screen name="singleCaseScreen" component={SingleCaseScreen} options={{headerShown: false}}/>
             </StackInside.Navigator>
         </>
     )
