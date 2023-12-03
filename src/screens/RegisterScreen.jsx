@@ -28,14 +28,7 @@ const RegisterScreen = () => {
         Bold: require("../../assets/fonts/Cairo-Bold.ttf"),
         extra: require("../../assets/fonts/Cairo-ExtraBold.ttf"),
     });
-    useEffect(() => {
-        const cleanerFont = async () => {
-            if (fontsLoaded) {
-                await SplashScreen.preventAutoHideAsync();
-            }
-        };
-        cleanerFont();
-    }, [fontsLoaded]);
+    const { currentUser } = useSelector((state) => state.authSlice)
     const { height, width } = useWindowDimensions()
     const navigation = useNavigation()
     const { registerLoading } = useSelector((state) => state.authSlice)
@@ -46,7 +39,13 @@ const RegisterScreen = () => {
         GoogleSignin.configure({
             webClientId: '85768740510-sa9vgom66hqrgjc7681c5tpr85vtffe4.apps.googleusercontent.com'
         });
-    }, [])
+        const cleanerFont = async () => {
+            if (fontsLoaded) {
+                await SplashScreen.preventAutoHideAsync();
+            }
+        };
+        cleanerFont();
+    }, [currentUser?.email, fontsLoaded])
 
     // handle register
     const submitGoogleRegister = async () => {

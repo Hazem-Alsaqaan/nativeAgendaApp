@@ -28,16 +28,9 @@ const LoginScreen = () => {
         Bold: require("../../assets/fonts/Cairo-Bold.ttf"),
         extra: require("../../assets/fonts/Cairo-ExtraBold.ttf"),
     });
-    useEffect(() => {
-        const cleanerFont = async () => {
-            if (fontsLoaded) {
-                await SplashScreen.preventAutoHideAsync();
-            }
-        };
-        cleanerFont();
-    }, [fontsLoaded]);
     const { height, width } = useWindowDimensions()
     const navigation = useNavigation()
+    const { currentUser } = useSelector((state) => state.authSlice)
     const { loginLoading } = useSelector((state) => state.authSlice)
     const dispatch = useDispatch()
 
@@ -45,7 +38,13 @@ const LoginScreen = () => {
         GoogleSignin.configure({
             webClientId: '85768740510-sa9vgom66hqrgjc7681c5tpr85vtffe4.apps.googleusercontent.com'
         });
-    }, [])
+        const cleanerFont = async () => {
+            if (fontsLoaded) {
+                await SplashScreen.preventAutoHideAsync();
+            }
+        };
+        cleanerFont();
+    }, [currentUser?.email, fontsLoaded])
     const backgroundHeight = width < 400 ? "h-6/9" : "h-full"
     // handle login 
     const submitGoogleSignIn = async () => {
