@@ -70,13 +70,16 @@ const HomeScreen = () => {
                         </View>
                     </View>
 
-                    <View style={tw`my-5 flex justify-center items-center`}>
+                    <View style={tw`w-full my-2 flex justify-center items-center`}>
                         <TouchableOpacity
                             style={tw`w-52 bg-sky-500 py-2 px-4 mb-5 rounded-lg shadow-2xl flex items-center justify-center`}
                             onPress={() => setShowDate(!showDate)}>
                             <Text style={tw`text-white text-2xl font-bold`}>عرض القضايا</Text>
                         </TouchableOpacity>
-                        <Image style={tw`w-56 h-56`} source={{ uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1693517092/judicial_agenda/main_icon_va2l3e.png" }} />
+                        <Image
+                            style={tw`w-56 h-72`}
+                            source={{ uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1701699392/judicial_agenda/view-3d-scales-justice-lawyer-s-day-removebg-preview_gl3tgv.png" }}
+                        />
                         {showDate ?
                             <DateTimePicker
                                 value={currentDate}
@@ -86,7 +89,7 @@ const HomeScreen = () => {
                             : ""
                         }
                     </View>
-                    <View style={tw`flex flex-row items-center justify-between `}>
+                    {/* <View style={tw`flex flex-row items-center justify-between `}>
                         <Image
                             source={{ uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1696339068/judicial_agenda/diary_10748433_mgiezi.png" }}
                             style={tw`w-20 h-20`}
@@ -99,7 +102,7 @@ const HomeScreen = () => {
                             source={{ uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1696339157/judicial_agenda/24-hours-support_5075962_cteslj.png" }}
                             style={tw`w-20 h-20`}
                         />
-                    </View>
+                    </View> */}
                     <TouchableOpacity
                         style={tw`bg-sky-500 rounded-lg px-5 py-2 flex items-center justify-center mt-5 shadow-2xl flex-row`}
                         onPress={() => signOut()}>

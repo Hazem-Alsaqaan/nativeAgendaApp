@@ -45,7 +45,7 @@ const RegisterScreen = () => {
             }
         };
         cleanerFont();
-    }, [currentUser?.email, fontsLoaded])
+    }, [currentUser?._id, fontsLoaded])
 
     // handle register
     const submitGoogleRegister = async () => {

@@ -44,7 +44,7 @@ const LoginScreen = () => {
             }
         };
         cleanerFont();
-    }, [currentUser?.email, fontsLoaded])
+    }, [currentUser?._id, fontsLoaded])
     const backgroundHeight = width < 400 ? "h-6/9" : "h-full"
     // handle login 
     const submitGoogleSignIn = async () => {

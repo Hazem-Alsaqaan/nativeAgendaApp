@@ -1,4 +1,4 @@
-package com.hazemalsaqaan.OnlineAgendA;
+package com.hazemalsaqaan.Agenda;
 
 import android.app.Application;
 import android.content.res.Configuration;
