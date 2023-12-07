@@ -141,5 +141,29 @@ export const ShowSingleCase = createAsyncThunk(
     }
   }
 );
+// search cases
+export const searchCases = createAsyncThunk(
+  "casesSlice/searchCases",
+  async (item) => {
+    try {
+      const res = await axios.post(
+        `https://doubtful-slip-mite.cyclic.app/api/v1/cases/search`,
+        {
+          plaintiff: item.searchText,
+          defendant: item.searchText,
+        },
+        {
+          headers: {
+            Authorization: `${item.token}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
 
 // https://doubtful-slip-mite.cyclic.app/api/v1
+// http://192.168.1.5:4000/api/v1

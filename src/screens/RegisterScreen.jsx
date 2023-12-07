@@ -22,6 +22,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 const RegisterScreen = () => {
+
     const [fontsLoaded] = useFonts({
         baloo: require("../../assets/fonts/BalooBhaijaan2-ExtraBold.ttf"),
         SemiBold: require("../../assets/fonts/Cairo-SemiBold.ttf"),
@@ -35,6 +36,7 @@ const RegisterScreen = () => {
     const dispatch = useDispatch()
     const backgroundHeight = width < 400 ? "h-6/9" : "h-full"
 
+
     useEffect(() => {
         GoogleSignin.configure({
             webClientId: '85768740510-sa9vgom66hqrgjc7681c5tpr85vtffe4.apps.googleusercontent.com'
@@ -45,7 +47,7 @@ const RegisterScreen = () => {
             }
         };
         cleanerFont();
-    }, [currentUser?._id, fontsLoaded])
+    }, [fontsLoaded])
 
     // handle register
     const submitGoogleRegister = async () => {

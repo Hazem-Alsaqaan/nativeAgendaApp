@@ -8,6 +8,7 @@ import { logout, logoutPending } from "../redux/reducers/authSlice"
 import * as Google from "@react-native-google-signin/google-signin"
 import tw from "twrnc"
 import ToastMessage from "../components/ToastMessage";
+import { Ionicons } from '@expo/vector-icons';
 
 
 const HomeScreen = () => {
@@ -23,7 +24,7 @@ const HomeScreen = () => {
         const date = selectedDate;
         setCurrentDate(date)
         setShowDate(!showDate)
-        const dayId = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate().toString().length <= 1 ? `0${selectedDate.getDate()}` : selectedDate.getDate()}`
+        const dayId = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1 < 10 ? `0${selectedDate.getMonth() + 1}` : `${selectedDate.getMonth() + 1}`}-${selectedDate.getDate() < 10 ? `0${selectedDate.getDate()}` : selectedDate.getDate()}`
         navigation.setParams({ dateId: dayId })
         navigation.navigate("DateSelected", {
             dateId: dayId
@@ -33,10 +34,10 @@ const HomeScreen = () => {
     const signOut = async () => {
         dispatch(logoutPending())
         try {
-            Google.GoogleSignin.signOut()
             dispatch(logout())
+            await Google.GoogleSignin.signOut()
+            Google.GoogleSignin.hasPlayServices();
         } catch (err) {
-            // console.log(err)
             if (err.code === Google.statusCodes.SIGN_IN_CANCELLED) {
                 ToastMessage("IN CANCELED")
             } else if (err.code === Google.statusCodes.IN_PROGRESS) {
@@ -75,6 +76,13 @@ const HomeScreen = () => {
                             style={tw`w-52 bg-sky-500 py-2 px-4 mb-5 rounded-lg shadow-2xl flex items-center justify-center`}
                             onPress={() => setShowDate(!showDate)}>
                             <Text style={tw`text-white text-2xl font-bold`}>عرض القضايا</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={tw`w-52 bg-sky-500 py-2 px-4 mb-5 rounded-lg shadow-2xl flex-row items-center justify-center`}
+                            onPress={() => navigation.navigate("search")}
+                        >
+                            <Text style={tw`text-white text-2xl font-bold mr-1.5`}>بحث</Text>
+                            <Ionicons name="search-sharp" size={24} color="#fff" />
                         </TouchableOpacity>
                         <Image
                             style={tw`w-56 h-72`}

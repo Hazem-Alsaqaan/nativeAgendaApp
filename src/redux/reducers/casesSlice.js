@@ -3,6 +3,7 @@ import {
   ShowSingleCase,
   addNewCases,
   deleteCases,
+  searchCases,
   showCasesByDate,
   updateCases,
 } from "../actions/casesAction";
@@ -18,6 +19,9 @@ const casesSlice = createSlice({
     singleCaseError: "",
     singleCaseLoading: false,
     sessionInputVisiable: false,
+    searchResult: [],
+    searchResultLoading: false,
+    searchResultError: "",
   },
   reducers: {
     setSendCaseId: (state, action) => {
@@ -90,6 +94,18 @@ const casesSlice = createSlice({
     builder.addCase(ShowSingleCase.rejected, (state, action) => {
       state.singleCaseLoading = false;
       state.singleCaseError = action.error.message;
+    });
+    // search cases
+    builder.addCase(searchCases.pending, (state, action) => {
+      state.searchResultLoading = true;
+    });
+    builder.addCase(searchCases.fulfilled, (state, action) => {
+      state.searchResultLoading = false;
+      state.searchResult = action.payload;
+    });
+    builder.addCase(searchCases.rejected, (state, action) => {
+      state.searchResultLoading = false;
+      state.searchResultError = action.error.message;
     });
   },
 });

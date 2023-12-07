@@ -22,6 +22,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 const LoginScreen = () => {
+
     const [fontsLoaded] = useFonts({
         baloo: require("../../assets/fonts/BalooBhaijaan2-ExtraBold.ttf"),
         SemiBold: require("../../assets/fonts/Cairo-SemiBold.ttf"),
@@ -44,7 +45,7 @@ const LoginScreen = () => {
             }
         };
         cleanerFont();
-    }, [currentUser?._id, fontsLoaded])
+    }, [fontsLoaded])
     const backgroundHeight = width < 400 ? "h-6/9" : "h-full"
     // handle login 
     const submitGoogleSignIn = async () => {
