@@ -20,9 +20,9 @@ import ToastMessage from "../components/ToastMessage";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 
 const RegisterScreen = () => {
-
     const [fontsLoaded] = useFonts({
         baloo: require("../../assets/fonts/BalooBhaijaan2-ExtraBold.ttf"),
         SemiBold: require("../../assets/fonts/Cairo-SemiBold.ttf"),
@@ -142,6 +142,14 @@ const RegisterScreen = () => {
                             </View>
                         </TouchableOpacity>
                     </View>
+                    {/* add admob bannerAd */}
+                    <BannerAd
+                        unitId={"ca-app-pub-9498389929500961/2190041880"}
+                        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+                        requestOptions={{
+                            requestNonPersonalizedAdsOnly: true
+                        }}
+                    />
                 </View>
             </SafeAreaView>
         </>

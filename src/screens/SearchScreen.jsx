@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import tw from "twrnc"
 import { searchCases } from "../redux/actions/casesAction"
 import { Feather } from '@expo/vector-icons';
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 
 const SearchScreen = () => {
     const dispatch = useDispatch()
@@ -84,6 +85,14 @@ const SearchScreen = () => {
                             )
                             : <Text style={tw`text-center font-bold text-base`}>لاتوجد قضايا ...</Text>}
                 </ScrollView>
+                {/* add admob bannerAd */}
+                <BannerAd
+                    unitId={"ca-app-pub-9498389929500961/2190041880"}
+                    size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+                    requestOptions={{
+                        requestNonPersonalizedAdsOnly: true
+                    }}
+                />
             </ImageBackground>
         </>
     )

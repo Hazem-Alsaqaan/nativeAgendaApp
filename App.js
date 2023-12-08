@@ -13,3 +13,10 @@ export default function App() {
     </>
   );
 }
+// ---------------------------------------------admob----------------------------------------------
+// https://www.section.io/engineering-education/getting-started-using-admob-with-react-native-expo/
+// https://github.com/expo/expo-ads-admob
+//https://github.com/invertase/react-native-google-mobile-ads
+
+// ca-app-pub-9498389929500961~6499207586
+// ca-app-pub-9498389929500961/2190041880

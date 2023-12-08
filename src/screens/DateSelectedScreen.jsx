@@ -6,6 +6,7 @@ import CreateCase from "../components/CreateCase"
 import ShowDateCases from "../components/ShowDateCases"
 import { useCallback, useState } from "react"
 import AddSession from "../components/AddSession"
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 
 const DateSelectedScreen = () => {
     const { errorMessage } = useSelector((state) => state.casesSlice)
@@ -31,6 +32,14 @@ const DateSelectedScreen = () => {
                     <View>
                         {errorMessage && ToastMessage(errorMessage)}
                     </View>
+                    {/* add admob bannerAd */}
+                    <BannerAd
+                        unitId={"ca-app-pub-9498389929500961/2190041880"}
+                        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+                        requestOptions={{
+                            requestNonPersonalizedAdsOnly: true
+                        }}
+                    />
                 </ImageBackground>
             </ScrollView>
         </View>
