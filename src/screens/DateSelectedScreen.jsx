@@ -1,4 +1,4 @@
-import { ImageBackground, RefreshControl, ScrollView, View } from "react-native"
+import { ImageBackground, RefreshControl, ScrollView, Text, View } from "react-native"
 import { useSelector } from "react-redux"
 import ToastMessage from "../components/ToastMessage"
 import tw from "twrnc"
@@ -23,9 +23,8 @@ const DateSelectedScreen = () => {
     return (
         <View>
             <ScrollView style={[tw`relative`, { minHeight: "100vh" }]} refreshControl={<RefreshControl refreshing={isRefresh} onRefresh={onReload} />}>
-                <ImageBackground
-                    source={{ uri: "https://res.cloudinary.com/dkhu7rt8n/image/upload/v1691845471/judicial_agenda/14547742_rm218batch4-ning-34_fxd8rj.jpg" }}
-                    style={[tw`w-full flex-1 items-center justify-center py-7`, { minHeight: "100vh" }]}>
+                <View
+                    style={[tw`w-full bg-white flex-1 items-center justify-center py-7`, { minHeight: "100vh" }]}>
                     <CreateCase />
                     {sessionInputVisiable ? <AddSession /> : ""}
                     <ShowDateCases isRefresh={isRefresh} />
@@ -33,6 +32,7 @@ const DateSelectedScreen = () => {
                         {errorMessage && ToastMessage(errorMessage)}
                     </View>
                     {/* add admob bannerAd */}
+                    <Text>اعلان</Text>
                     <BannerAd
                         unitId={"ca-app-pub-9498389929500961/2190041880"}
                         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
@@ -40,7 +40,7 @@ const DateSelectedScreen = () => {
                             requestNonPersonalizedAdsOnly: true
                         }}
                     />
-                </ImageBackground>
+                </View>
             </ScrollView>
         </View>
     )

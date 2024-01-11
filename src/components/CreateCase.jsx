@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native"
-import { ScrollView, Text, TouchableOpacity, TextInput, View } from "react-native"
+import { ScrollView, Text, TouchableOpacity, TextInput, View, PixelRatio } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 import tw from "twrnc"
 import { useDispatch, useSelector } from "react-redux"
@@ -10,6 +10,7 @@ import { setSessionInputVisiable } from "../redux/reducers/casesSlice";
 
 
 const CreateCase = () => {
+    const fontScale = PixelRatio.getFontScale()
     const dispatch = useDispatch()
     const { dateId } = useRoute().params
     const navigation = useNavigation()
@@ -65,53 +66,53 @@ const CreateCase = () => {
                     <View style={tw`flex flex-row justify-between items-center mb-2`}>
                         <TouchableOpacity
                             onPress={() => navigation.goBack()}
-                            style={tw`flex flex-row items-center justify-center bg-transparent px-3 py-1 border-solid border-2 border-sky-500 rounded-lg`}>
-                            <Ionicons name="return-down-back-outline" size={24} color="black" />
+                            style={tw`flex flex-row items-center justify-center bg-transparent px-3 py-1 border-solid border-2 border-indigo-500 rounded-lg`}>
+                            <Ionicons name="return-down-back-outline" size={fontScale * 20} color="black" />
                         </TouchableOpacity>
-                        <Text style={tw`text-lg font-bold text-sky-500`}>تاريخ الصفحة: {dateId}</Text>
+                        <Text style={tw`text-[${fontScale * 18}px] font-bold text-indigo-500`}>تاريخ الصفحة: {dateId}</Text>
                     </View>
                     <View>
-                        <Text style={tw`text-center font-bold text-base`}>الرقم</Text>
+                        <Text style={tw`text-center font-bold text-[${fontScale * 18}px]`}>رقم الدعوى</Text>
                         <TextInput
-                            placeholder="الرقم"
-                            style={tw`mb-4 placeholder:text-gray-900 rounded-xl text-lg mx-2 bg-white bg-opacity-40 p-2  border-b-2 border-solid border-b-slate-300 text-center`}
+                            placeholder="رقم الدعوى"
+                            style={tw`mb-4 placeholder:text-gray-900 rounded-xl text-[${fontScale * 18}px] mx-2 bg-[#f1f5f9]  p-2  text-center`}
                             onChangeText={(text) => dispatch(setNumber(text))}
                             value={`${caseStates.number}`}
                         />
-                        <Text style={tw`text-center font-bold text-base`}>لسنة</Text>
+                        <Text style={tw`text-center font-bold text-[${fontScale * 18}px]`}>لسنة</Text>
                         <TextInput
                             placeholder="لسنة"
-                            style={tw`mb-4 placeholder:text-gray-900 rounded-xl text-lg mx-2 bg-white bg-opacity-40 p-2  border-b-2 border-solid border-b-slate-300 text-center`}
+                            style={tw`mb-4 placeholder:text-gray-900 rounded-xl text-[${fontScale * 18}px] mx-2 bg-[#f1f5f9]  p-2  text-center`}
                             onChangeText={(text) => dispatch(setTheYear(text))}
                             value={`${caseStates.theYear}`}
                         />
-                        <Text style={tw`text-center font-bold text-base`}>المدعى</Text>
+                        <Text style={tw`text-center font-bold text-[${fontScale * 18}px]`}>المدعى</Text>
                         <TextInput
                             placeholder="المدعى"
-                            style={tw`mb-4 placeholder:text-gray-900 rounded-xl text-lg mx-2 bg-white bg-opacity-40 p-2  border-b-2 border-solid border-b-slate-300 text-center`}
+                            style={tw`mb-4 placeholder:text-gray-900 rounded-xl text-[${fontScale * 18}px] mx-2 bg-[#f1f5f9]  p-2  text-center`}
                             onChangeText={(text) => dispatch(setPlaintiff(text))}
                             value={`${caseStates.plaintiff}`}
                         />
-                        <Text style={tw`text-center font-bold text-base`}>المدعى عليه</Text>
+                        <Text style={tw`text-center font-bold text-[${fontScale * 18}px]`}>المدعى عليه</Text>
                         <TextInput
                             placeholder="المدعى عليه"
-                            style={tw`mb-4 placeholder:text-gray-900 rounded-xl text-lg mx-2 bg-white bg-opacity-40 p-2  border-b-2 border-solid border-b-slate-300 text-center`}
+                            style={tw`mb-4 placeholder:text-gray-900 rounded-xl text-[${fontScale * 18}px] mx-2 bg-[#f1f5f9]  p-2  text-center`}
                             onChangeText={(text) => dispatch(setDefendant(text))}
                             value={`${caseStates.defendant}`}
                         />
-                        <Text style={tw`text-center font-bold text-base`}>نوع الدعوى</Text>
+                        <Text style={tw`text-center font-bold text-[${fontScale * 18}px]`}>نوع الدعوى</Text>
                         <TextInput
                             placeholder="نوع الدعوى"
-                            style={tw`mb-4 placeholder:text-gray-900 rounded-xl text-lg mx-2 bg-white bg-opacity-40 p-2  border-b-2 border-solid border-b-slate-300 text-center`}
+                            style={tw`mb-4 placeholder:text-gray-900 rounded-xl text-[${fontScale * 18}px] mx-2 bg-[#f1f5f9]  p-2  text-center`}
                             onChangeText={(text) => dispatch(setTypeCase(text))}
                             value={`${caseStates.typeCase}`}
                         />
                         {buttonMood === "create"
-                            ? <TouchableOpacity onPress={() => submitCreateCase()} style={tw`bg-blue-500 rounded-lg  my-1 p-1 flex items-center justify-center`}>
-                                <Text style={tw`text-white font-bold text-lg`}>إنشاء</Text>
+                            ? <TouchableOpacity onPress={() => submitCreateCase()} style={tw`bg-indigo-500 rounded-lg  my-1 p-1 flex items-center justify-center`}>
+                                <Text style={tw`text-white font-bold text-[${fontScale * 18}px]`}>إنشاء</Text>
                             </TouchableOpacity>
-                            : buttonMood === "edit" ? <TouchableOpacity onPress={() => submitUpdateCases()} style={tw`bg-blue-500 rounded-lg  my-1 p-1 flex items-center justify-center`}>
-                                <Text style={tw`text-white font-bold text-lg`}>تعديل</Text>
+                            : buttonMood === "edit" ? <TouchableOpacity onPress={() => submitUpdateCases()} style={tw`bg-indigo-500 rounded-lg  my-1 p-1 flex items-center justify-center`}>
+                                <Text style={tw`text-white font-bold text-[${fontScale * 18}px]`}>تعديل</Text>
                             </TouchableOpacity> : ""
                         }
 

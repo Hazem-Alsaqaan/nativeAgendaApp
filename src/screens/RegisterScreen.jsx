@@ -1,6 +1,7 @@
 import {
     ActivityIndicator,
     Image,
+    PixelRatio,
     SafeAreaView,
     Text,
     TouchableOpacity,
@@ -21,6 +22,7 @@ import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+import { Entypo } from '@expo/vector-icons';
 
 const RegisterScreen = () => {
     const [fontsLoaded] = useFonts({
@@ -34,7 +36,7 @@ const RegisterScreen = () => {
     const navigation = useNavigation()
     const { registerLoading } = useSelector((state) => state.authSlice)
     const dispatch = useDispatch()
-    const backgroundHeight = width < 400 ? "h-6/9" : "h-full"
+    const fontScale = PixelRatio.getFontScale()
 
 
     useEffect(() => {
@@ -91,58 +93,59 @@ const RegisterScreen = () => {
     if (!fontsLoaded) return null;
     return (
         <>
-            <SafeAreaView style={tw`bg-white flex items-center justify-center min-h-full w-full`} >
+            <SafeAreaView style={tw`bg-white  min-h-full w-full`} >
                 {/* >>>>>>>>>>>>>>>>>>> Top Side <<<<<<<<<<<<<<<<<<<<*/}
-                <View style={tw`flex-6 justify-center items-center w-full bg-blue-500 rounded-b-[40px]`}>
+                <View style={tw`flex-8 justify-end items-center w-full bg-indigo-400 rounded-b-full overflow-hidden shadow-xl`}>
                     <Image
-                        source={require("../../assets/register.png")}
-                        style={tw`w-full ${backgroundHeight}`}
+                        source={require("../../assets/pictures/grey-marble-column-details-building.jpg")}
+                        style={tw`w-full h-full absolute opacity-10`}
                     />
+                    <View style={tw`w-full h-full pt-5 absolute top-5`}>
+                        <Image
+                            source={require("../../assets/pictures/35105609_8271787-removebg-preview.png")}
+                            style={tw`w-full h-full`}
+                        />
+                    </View>
                 </View>
                 {/* >>>>>>>>>>>>>>>>>>> Bottom Side <<<<<<<<<<<<<<<<<<<<*/}
-                <View style={tw`bg-white w-full flex-4 justify-center items-center`}>
-                    <View style={tw`w-20 h-20 mb-5 -mt-16 rounded-full flex justify-center items-center border-solid border-2 border-white shadow-xl`}>
+                <View style={tw`bg-white w-full flex-5 items-center justify-between mt-3`}>
+                    <View>
                         <Image
-                            source={require("../../assets/user.png")}
-                            style={tw`w-20 h-20`}
+                            source={require("../../assets/pictures/chat_7260097.png")}
+                            style={tw`w-12 h-12`}
                         />
                     </View>
 
-                    <View style={tw`flex items-center justify-center`}>
-                        <Text style={[{ fontFamily: "Bold" }, tw`text-xl text-sky-500`]}> قم بإنشاء حساب جديد</Text>
+                    <View style={tw`flex items-center justify-center mb-2`}>
+                        <Text style={[{ fontFamily: "Bold" }, tw`text-[${fontScale * 16}px] text-slate-500`]}> قم بإنشاء حساب جديد</Text>
                         {/* <<<<<<<<<<<<<<<<<<  REGISTER BUTTON  >>>>>>>>>>>>>>>>> */}
                         <TouchableOpacity
-                            style={tw`bg-blue-500 rounded-md p-1 my-2 flex flex-row items-center justify-center w-64 h-11`}
+                            style={tw`bg-indigo-500 rounded-md py-1 px-4 my-2 flex flex-row items-center justify-center w-48 h-9 shadow-2xl`}
                             onPress={() => submitGoogleRegister()}
                         >
-                            <Image
-                                source={require("../../assets/google_icon.png")}
-                                style={tw`w-9 h-9`}
-                            />
+                            <Entypo name="google-" size={fontScale * 24} color="white" />
                             <View style={tw`h-full flex-1 items-center justify-end`}>
-                                <Text style={[{ fontFamily: "SemiBold" }, tw`text-white text-xl`]}>{registerLoading ? <ActivityIndicator size="small" color="#fff" /> : `إنشاء حساب`}</Text>
+                                <Text style={[{ fontFamily: "SemiBold" }, tw`text-white text-[${fontScale * 16}px]`]}>{registerLoading ? <ActivityIndicator size="small" color="#fff" /> : `إنشاء حساب`}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
-                    <View style={tw`flex items-center justify-center m-4 mb-8`}>
-                        <Text style={[{ fontFamily: "SemiBold" }, tw`text-xl text-black`]}>
+                    <View style={tw`flex items-center justify-center  mb-8`}>
+                        <Text style={[{ fontFamily: "SemiBold" }, tw`text-[${fontScale * 16}px] text-black`]}>
                             أو سجل الدخول باستخدام بريدك الالكترونى
                         </Text>
                         {/* <<<<<<<<<<<<<<<<<<  LOGIN BUTTON  >>>>>>>>>>>>>>>>> */}
                         <TouchableOpacity
-                            style={tw`bg-blue-500 rounded-md p-1 my-2 flex flex-row items-center justify-center w-64 h-11`}
+                            style={tw`bg-indigo-500 rounded-md py-1 px-4 my-1 flex flex-row items-center justify-center w-56 h-9  shadow-2xl`}
                             onPress={() => navigation.navigate("login")}
                         >
-                            <Image
-                                source={require("../../assets/google_icon.png")}
-                                style={tw`w-9 h-9`}
-                            />
+                            <Entypo name="google-" size={fontScale * 24} color="white" />
                             <View style={tw`h-full flex-1 items-center justify-end`}>
-                                <Text style={[{ fontFamily: "SemiBold" }, tw`text-white text-xl`]}>تسجيل الدخول</Text>
+                                <Text style={[{ fontFamily: "SemiBold" }, tw`text-white text-[${fontScale * 16}px] flex items-center justify-center`]}>تسجيل الدخول</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
                     {/* add admob bannerAd */}
+                    <Text>اعلان</Text>
                     <BannerAd
                         unitId={"ca-app-pub-9498389929500961/2190041880"}
                         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
