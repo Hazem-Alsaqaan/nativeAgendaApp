@@ -8,9 +8,7 @@ import {
     View,
     useWindowDimensions,
 } from "react-native";
-import { loginFulfilled, loginPending, loginRejected } from "../redux/reducers/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc"
 import {
@@ -23,6 +21,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 import { Entypo } from '@expo/vector-icons';
+import { loginWithGoogle } from "../redux/actions/authActions";
 
 const LoginScreen = () => {
     const [fontsLoaded] = useFonts({
@@ -49,42 +48,26 @@ const LoginScreen = () => {
     }, [fontsLoaded])
     // handle login 
     const submitGoogleSignIn = async () => {
-        dispatch(loginPending())
+           await GoogleSignin.hasPlayServices()
+             await   GoogleSignin.signOut()
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
-            const userLoginInfo = await axios.post(`https://agend-api.onrender.com/api/v2/users/login`,
-                {
+                dispatch(loginWithGoogle({
                     name: userInfo.user.name,
                     email: userInfo.user.email,
                     picture: userInfo.user.photo
-                })
-            dispatch(loginFulfilled(userLoginInfo.data))
-            // const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
-            //     {
-            //         name: "hazem khalil",
-            //         email: "hazem.hamdy.khalil@gmail.com",
-            //         picture: "https://lh3.googleusercontent.com/a/ACg8ocJA8nk3tPyVwSiQIwGxyLgUIJBe7goY3NcNgbsNCIaDjA=s96-c"
-            //     })
-            // dispatch(loginFulfilled(userLoginInfo.data))
-            } catch (err) {
-            console.log(err.response)
+                }))
+        } catch (err) {
             if (err.code === statusCodes.SIGN_IN_CANCELLED) {
                 ToastMessage("user cancelled the login flow")
             } else if (err.code === statusCodes.IN_PROGRESS) {
                 ToastMessage("operation (e.g. sign in) is in progress already")
             } else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 ToastMessage('play services not available or outdated')
-            } else if (err.message === "Network Error") {
-                ToastMessage("تأكد من اتصالك بالانترنت")
-            } else if (err.response.data.error_description) {
-                ToastMessage(err.response.data.error_description)
-            } else if (err.response.data.message) {
-                ToastMessage(err.response.data.message)
             } else {
-                ToastMessage(err.response.data)
+                throw (err)
             }
-            dispatch(loginRejected())
         }
     };
     if (!fontsLoaded) return null;
