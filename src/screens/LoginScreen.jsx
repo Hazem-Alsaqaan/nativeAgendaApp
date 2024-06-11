@@ -53,7 +53,7 @@ const LoginScreen = () => {
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
-            const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/login`,
+            const userLoginInfo = await axios.post(`https://agend-api.onrender.com/api/v2/users/login`,
                 {
                     name: userInfo.user.name,
                     email: userInfo.user.email,
@@ -67,7 +67,8 @@ const LoginScreen = () => {
             //         picture: "https://lh3.googleusercontent.com/a/ACg8ocJA8nk3tPyVwSiQIwGxyLgUIJBe7goY3NcNgbsNCIaDjA=s96-c"
             //     })
             // dispatch(loginFulfilled(userLoginInfo.data))
-        } catch (err) {
+            } catch (err) {
+            console.log(err.response)
             if (err.code === statusCodes.SIGN_IN_CANCELLED) {
                 ToastMessage("user cancelled the login flow")
             } else if (err.code === statusCodes.IN_PROGRESS) {

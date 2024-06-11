@@ -57,7 +57,7 @@ const RegisterScreen = () => {
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
-            const userLoginInfo = await axios.post(`https://doubtful-slip-mite.cyclic.app/api/v1/users/register`,
+            const userLoginInfo = await axios.post(`https://agend-api.onrender.com/api/v2/users/register`,
                 {
                     name: userInfo.user.name,
                     email: userInfo.user.email,

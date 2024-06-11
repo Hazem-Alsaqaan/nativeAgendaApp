@@ -7,7 +7,7 @@ export const showCasesByDate = createAsyncThunk(
   async (item) => {
     try {
       const res = await axios.get(
-        `https://doubtful-slip-mite.cyclic.app/api/v1/cases/getCases/${item.date}`,
+        `https://agend-api.onrender.com/api/v2/cases/getCases/${item.date}`,
         {
           headers: {
             Authorization: `${item.token}`,
@@ -32,7 +32,7 @@ export const addNewCases = createAsyncThunk(
   async (item) => {
     try {
       const res = await axios.post(
-        `https://doubtful-slip-mite.cyclic.app/api/v1/cases/newCase`,
+        `https://agend-api.onrender.com/api/v2/cases/newCase`,
         {
           number: item.number,
           theYear: item.theYear,
@@ -64,7 +64,7 @@ export const updateCases = createAsyncThunk(
   async (item) => {
     try {
       const res = await axios.patch(
-        `https://doubtful-slip-mite.cyclic.app/api/v1/cases/updateCase/${item.id}`,
+        `https://agend-api.onrender.com/api/v2/cases/updateCase/${item.id}`,
         {
           number: item.number,
           theYear: item.theYear,
@@ -97,7 +97,7 @@ export const deleteCases = createAsyncThunk(
   async (item) => {
     try {
       const res = await axios.delete(
-        `https://doubtful-slip-mite.cyclic.app/api/v1/cases/deleteCase/${item.id}`,
+        `https://agend-api.onrender.com/api/v2/cases/deleteCase/${item.id}`,
         {
           headers: {
             Authorization: `${item.token}`,
@@ -122,7 +122,7 @@ export const ShowSingleCase = createAsyncThunk(
   async (item) => {
     try {
       const res = await axios.get(
-        `https://doubtful-slip-mite.cyclic.app/api/v1/cases/oneCase/${item.id}`,
+        `https://agend-api.onrender.com/api/v2/cases/oneCase/${item.id}`,
         {
           headers: {
             Authorization: `${item.token}`,
@@ -147,7 +147,7 @@ export const searchCases = createAsyncThunk(
   async (item) => {
     try {
       const res = await axios.post(
-        `https://doubtful-slip-mite.cyclic.app/api/v1/cases/search`,
+        `https://agend-api.onrender.com/api/v2/cases/search`,
         {
           plaintiff: item.searchText,
           defendant: item.searchText,
@@ -165,5 +165,5 @@ export const searchCases = createAsyncThunk(
   }
 );
 
-// https://doubtful-slip-mite.cyclic.app/api/v1
+// https://agend-api.onrender.com/api/v2
 // http://192.168.1.5:4000/api/v1

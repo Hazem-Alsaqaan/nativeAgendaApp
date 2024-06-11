@@ -7,7 +7,7 @@ export const addNewSession = createAsyncThunk(
   async (item) => {
     try {
       const res = await axios.post(
-        `https://doubtful-slip-mite.cyclic.app/api/v1/sessions/newSession`,
+        `https://agend-api.onrender.com/api/v2/sessions/newSession`,
         {
           decision: item.decision,
           sessionDate: item.sessionDate,
@@ -32,7 +32,7 @@ export const getSessions = createAsyncThunk(
   async () => {
     try {
       const res = await axios.get(
-        `https://doubtful-slip-mite.cyclic.app/api/v1/sessions/getSessions`
+        `https://agend-api.onrender.com/api/v2/sessions/getSessions`
       );
       return res.data;
     } catch (err) {
@@ -47,7 +47,7 @@ export const updateSession = createAsyncThunk(
   async (item) => {
     try {
       const res = await axios.patch(
-        `https://doubtful-slip-mite.cyclic.app/api/v1/sessions/updateSession/${item.sessionId}`,
+        `https://agend-api.onrender.com/api/v2/sessions/updateSession/${item.sessionId}`,
         {
           decision: item.decision,
           sessionDate: item.sessionDate,
@@ -65,7 +65,7 @@ export const deleteSession = createAsyncThunk(
   async (item) => {
     try {
       const res = await axios.delete(
-        `https://doubtful-slip-mite.cyclic.app/api/v1/sessions/deleteSession/${item.sessionId}`
+        `https://agend-api.onrender.com/api/v2/sessions/deleteSession/${item.sessionId}`
       );
       return res.data;
     } catch (err) {
